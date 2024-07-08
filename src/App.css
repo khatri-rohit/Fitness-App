@@ -1,0 +1,9 @@
+*{
+    margin: 0;
+    box-sizing: border-box;
+}
+
+.image{
+    background: url('/img/login-Background.jpg');
+    background-size: cover;
+}

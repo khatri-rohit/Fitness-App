@@ -34,7 +34,7 @@ export const ContextProvider = ({ children }) => {
 
     const [user, setUser] = useState(null)
     const [isLoggedIn, setIsLoggedIn] = useState(true)
-
+    const [showModel, setShowModel] = useState(true)
     useEffect(() => {
         onAuthStateChanged(FirebaseAuth, (user) => {
             if (user !== null) {
@@ -42,13 +42,12 @@ export const ContextProvider = ({ children }) => {
                 const email = user.email;
                 const photoURL = user.photoURL;
                 const emailVerified = user.emailVerified;
-                setUser(user)
                 console.log(displayName);
                 console.log(email);
                 console.log(photoURL);
                 console.log(emailVerified);
                 console.log("OAuthStateChanged");
-                isLoggedIn(true)
+                setUser(user)
             }
             else {
                 setUser(null)
@@ -70,7 +69,7 @@ export const ContextProvider = ({ children }) => {
     }
 
     return (
-        <FirebaseContext.Provider value={{ user, createUser, signOutUser, isLoggedIn, setIsLoggedIn, loginUser, FirebaseAuth, authProvider }}>
+        <FirebaseContext.Provider value={{ user, createUser, signOutUser, isLoggedIn, setIsLoggedIn, loginUser, FirebaseAuth, authProvider, showModel, setShowModel }}>
             {children}
         </FirebaseContext.Provider>
     )

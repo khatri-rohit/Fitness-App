@@ -4,12 +4,13 @@ import { useFireabse } from "./context/Firebase";
 import { Home } from './pages/Home';
 import DashBoard from './components/DashBoard';
 import Register from './components/Register';
-import './App.css'
 import Login from './components/Login';
+import './App.css'
 
 const App = () => {
 
   const { user, isLoggedIn } = useFireabse()
+
   const router = createBrowserRouter(
     createRoutesFromElements(
       <Route path='/' element={<Home />} >
@@ -20,17 +21,15 @@ const App = () => {
   )
 
   if (!isLoggedIn) {
-    return <div className={`mx-auto border-4 h-screen flex items-center ${isLoggedIn ? '' : `image`}`}>
+    return <div className={`mx-auto border-4 h-screen flex items-center w-screen ${isLoggedIn ? '' : `image`}`}>
       <Login />
     </div>
   }
 
-
   return (
     <>
-      <div className={`mx-auto border-4 h-screen flex items-center ${user ? '' : `image`}`}>
+      <div className={`mx-auto border-4 h-screen flex items-center w-screen ${user ? '' : `image`} `}>
         {user ? <RouterProvider router={router} /> : <Register />}
-
       </div>
     </>
   )

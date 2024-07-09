@@ -29,7 +29,7 @@ const Login = () => {
                     Login your Account
                 </p>
             </div>
-            <form className="max-w-sm mx-auto flex flex-col justify-center items-center md:mb-5 mb-2" onSubmit={userLogin}>
+            <form className="max-w-sm mx-auto flex flex-col justify-center items-center mb-2" onSubmit={userLogin}>
                 <div className="mb-5 w-full">
                     <label htmlFor="email"
                         className="block mb-2 text-sm font-medium text-gray-900 ">

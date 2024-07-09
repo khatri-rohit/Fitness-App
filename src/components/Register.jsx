@@ -7,19 +7,19 @@ import { signInWithPopup } from 'firebase/auth'
 
 const Register = () => {
 
-    const { createUser, setIsLoggedIn, FirebaseAuth, authProvider } = useFireabse()
+    const { createUser, setIsLoggedIn, FirebaseAuth, authProvider, setShowModel } = useFireabse()
 
     const [email, setEmail] = useState('')
     const [pass, setPass] = useState('')
 
+
     const handleSubmit = (e) => {
         e.preventDefault()
-
         console.log("Submit Form");
-
         createUser(email, pass).then((userCredential) => {
             console.log("Account Created");
             console.log(userCredential.user.email);
+            setShowModel(true)
 
         }).catch((error) => {
             const errorCode = error.code;
@@ -44,6 +44,7 @@ const Register = () => {
             if (value.user) {
                 console.log(value.user.displayName);
                 console.log(value.user.email);
+                setShowModel(true)
             }
         } catch (error) {
             console.log(error);

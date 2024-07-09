@@ -1,0 +1,7 @@
+* {
+  box-sizing: border-box;
+}
+
+.model{
+  filter: blur(7px);
+}

@@ -7,7 +7,7 @@ import { signInWithPopup } from 'firebase/auth'
 
 const Register = () => {
 
-    const { createUser, setIsLoggedIn, FirebaseAuth, authProvider, setShowModel } = useFireabse()
+    const { createUser, setIsLoggedIn, FirebaseAuth, authProvider, setShowModel, newUser, setNewUser } = useFireabse()
 
     const [email, setEmail] = useState('')
     const [pass, setPass] = useState('')
@@ -15,22 +15,21 @@ const Register = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        console.log("Submit Form");
         createUser(email, pass).then((userCredential) => {
             console.log("Account Created");
-            console.log(userCredential.user.email);
+            const { email, metadata, accessToken, reloadUserInfo, uid } = userCredential.user
+            setNewUser({ email, accessToken, uid })
+            console.log(newUser);
             setShowModel(true)
 
         }).catch((error) => {
             const errorCode = error.code;
             const errorMessage = error.message;
-            console.log(errorCode);
-            console.log(errorMessage);
 
             if (errorCode === 'auth/email-already-in-use') {
                 var msg = errorCode.replace("auth/", "")
                 console.log(msg);
-                alert("This User Email ALready Exists \nTry to Login")
+                alert("This User Email ALready Exists \nTry to Login ", msg)
                 setPass('')
                 setEmail('')
                 setIsLoggedIn(true)

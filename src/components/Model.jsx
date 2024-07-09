@@ -2,35 +2,32 @@ import { useState } from "react";
 import { useFireabse } from "../context/Firebase";
 import '../styles/Popup.css'
 
+
 const Model = () => {
+    const { setShowModel, newUser, createUserDatabase } = useFireabse()
 
-    const { setShowModel } = useFireabse()
-
-    // Set Data to form variables
     const [userData, setUserData] = useState({
         name: '',
-        age: 0,
-        height: 0,
-        weight: 0
+        age: '',
+        height: '',
+        weight: ''
     })
-
 
     const handelSubmit = (e) => {
         e.preventDefault()
-        console.log(userData);
-
-        // setShowModel(false)
+        createUserDatabase(newUser, userData)
+        setShowModel(false)
     }
 
     return (
         <>
-            <div className="container absolute inset-0 z-10 drop-shadow-2xl mx-auto bg-gray-100 h-fit my-10 w-3/4 md:w-1/4 md:p-8 p-5 rounded-3xl">
+            <div className="overlay-container container absolute inset-0 z-10 drop-shadow-2xl mx-auto bg-gray-100 h-fit my-10 w-3/4 md:w-1/4 md:p-8 p-5 rounded-3xl">
                 <div className="md:mb-5 mb-2">
                     <p className="md:text-lg text-xl lg:text-3xl text-center m-3 drop-shadow-lg font-thin">
                         About You
                     </p>
                 </div>
-                <form className="max-w-sm mx-auto flex flex-col justify-center items-center md:mb-5 mb-2" onSubmit={handelSubmit}>
+                <form className="popup-box max-w-sm mx-auto flex flex-col justify-center items-center md:mb-5 mb-2" onSubmit={handelSubmit}>
                     <div className="mb-5 w-full">
                         <label htmlFor="name"
                             className="block mb-2 text-sm font-medium text-gray-900 ">
@@ -38,7 +35,7 @@ const Model = () => {
                         </label>
                         <input
                             value={userData.name}
-                            onChange={e => setUserData(...userData, { name: e.target.value })}
+                            onChange={(e) => setUserData(prev => ({ ...prev, name: e.target.value }))}
                             type="text" name="name" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500  block w-full p-2.5 dark:bg-gray-200 dark:border-gray-600 dark:placeholder-gray-700 dark:text-black dark:focus:ring-blue-500" />
                     </div>
                     <div className="mb-5 w-full">
@@ -49,9 +46,35 @@ const Model = () => {
                         <input
                             type="number"
                             value={userData.age}
-                            onChange={e => setUserData(...userData, { age: e.target.value })}
+                            onChange={(e) => setUserData(prev => ({ ...prev, age: e.target.value }))}
                             name="age" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500  block w-full p-2.5 dark:bg-gray-200 dark:border-gray-600 dark:placeholder-gray-5  00 dark:text-black dark:focus:ring-blue-500 "
-                            required />
+                            required placeholder="0" />
+                    </div>
+                    <div className="mb-5 w-full flex">
+                        <div className="w-fit mx-1">
+                            <label htmlFor="height"
+                                className="block mb-2 text-sm font-medium text-gray-900 ">
+                                Height (cm)
+                            </label>
+                            <input
+                                type="number"
+                                value={userData.height}
+                                onChange={(e) => setUserData(prev => ({ ...prev, height: e.target.value }))}
+                                name="height" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500  block w-full p-2.5 dark:bg-gray-200 dark:border-gray-600 dark:placeholder-gray-5  00 dark:text-black dark:focus:ring-blue-500 "
+                                required placeholder="0" />
+                        </div>
+                        <div className="w-fit mx-1">
+                            <label htmlFor="weight"
+                                className="block mb-2 text-sm font-medium text-gray-900 ">
+                                Weight
+                            </label>
+                            <input
+                                type="number"
+                                value={userData.weight}
+                                onChange={(e) => setUserData(prev => ({ ...prev, weight: e.target.value }))}
+                                name="weight" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500  block w-full p-2.5 dark:bg-gray-200 dark:border-gray-600 dark:placeholder-gray-5  00 dark:text-black dark:focus:ring-blue-500 "
+                                required placeholder="0" />
+                        </div>
                     </div>
                     <div className="">
                         <button type="submit" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-fit px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" onSubmit={handelSubmit}>

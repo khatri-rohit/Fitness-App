@@ -42,11 +42,13 @@ export const ContextProvider = ({ children }) => {
 
     const [user, setUser] = useState(null) // On Auth State Changed
     const [isLoggedIn, setIsLoggedIn] = useState(true) // Login Page
-    const [showModel, setShowModel] = useState(false) // Data Model Popup
+    const [showModel, setShowModel] = useState(true) // Data Model Popup
     const [newUser, setNewUser] = useState(null)
 
     // Add Doc To Users Collection Firestore
-    const createUserDatabase = async ({ email, uid, accessToken }, { name, age, weight, height }) => {
+    const createUserDatabase = async ({ email, uid, accessToken, metadata: { createdAt, creationTime, lastLoginAt, lastSignInTime } },
+        { name, age, weight, height }) => {
+
         try {
             const docRef = doc(firestore, "users", email);
             await setDoc(docRef, {
@@ -56,21 +58,17 @@ export const ContextProvider = ({ children }) => {
                 age,
                 height,
                 weight,
-                uid
+                uid,
+                metadata: {
+                    createdAt, creationTime,
+                    lastLoginAt, lastSignInTime
+                }
             });
-
-            // console.log("Document written with ID: ", docRef.id);
-
-            const querySnapshot = await getDocs(collection(firestore, "users"));
-            querySnapshot.forEach((doc) => {
-                console.log(doc.id)
-                console.log(doc.data().Name);
-
-            });
+            console.log("Document written with ID: ", docRef.id);
             setNewUser(null)
 
         } catch (error) {
-            setNewUser({})
+            setNewUser(null)
             console.log(error + "\nError Acuured While create Data");
         }
     }

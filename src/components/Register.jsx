@@ -15,26 +15,33 @@ const Register = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        createUser(email, pass).then((userCredential) => {
-            console.log("Account Created");
-            const { email, metadata, accessToken, reloadUserInfo, uid } = userCredential.user
-            setNewUser({ email, accessToken, uid })
-            console.log(newUser);
-            setShowModel(true)
+        const regEx = /^[a-zA-Z0-9._%+-]+@gmail\.com$/
 
-        }).catch((error) => {
-            const errorCode = error.code;
-            const errorMessage = error.message;
+        if (regEx.test(email)) { // Operation perform only when email is valid 
+            createUser(email, pass).then((userCredential) => {
+                console.log("Account Created");
+                const { email, metadata, accessToken, uid } = userCredential.user
+                setNewUser({ email, accessToken, uid, metadata })
+                console.log(newUser);
+                setShowModel(true)
+            }).catch((error) => {
+                const errorCode = error.code;
+                const errorMessage = error.message;
 
-            if (errorCode === 'auth/email-already-in-use') {
-                var msg = errorCode.replace("auth/", "")
-                console.log(msg);
-                alert("This User Email ALready Exists \nTry to Login ", msg)
-                setPass('')
-                setEmail('')
-                setIsLoggedIn(true)
-            }
-        })
+                if (errorCode === 'auth/email-already-in-use') {
+                    var msg = errorCode.replace("auth/", "")
+                    console.log(msg);
+                    alert("This User Email ALready Exists \nTry to Login ", msg)
+                    setPass('')
+                    setEmail('')
+                    setIsLoggedIn(true)
+                }
+            })
+        } else {
+            setPass('')
+            setEmail('')
+            alert("Please Enter Valid Email")
+        }
     }
 
     const handleGoogleSign = async () => {
@@ -67,7 +74,7 @@ const Register = () => {
                         <input
                             value={email}
                             onChange={e => setEmail(e.target.value)}
-                            type="email" id="email" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500  block w-full p-2.5 dark:bg-gray-200 dark:border-gray-600 dark:placeholder-gray-700 dark:text-black dark:focus:ring-blue-500 " placeholder="name@flowbite.com" required autoComplete="email" />
+                            type="email" id="email" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500  block w-full p-2.5 dark:bg-gray-200 dark:border-gray-600 dark:placeholder-gray-700 dark:text-black dark:focus:ring-blue-500 " placeholder="name@gmail.com" required autoComplete="email" />
                     </div>
                     <div className="mb-5 w-full">
                         <label htmlFor="password"

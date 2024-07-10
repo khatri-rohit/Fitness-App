@@ -2,7 +2,7 @@
 import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } from 'react-router-dom'
 import { useFireabse } from "./context/Firebase";
 import { Home } from './pages/Home';
-import DashBoard from './components/DashBoard';
+import DashBoard from './pages/DashBoard';
 import Register from './components/Register';
 import Login from './components/Login';
 import './App.css'
@@ -28,8 +28,9 @@ const App = () => {
 
   return (
     <>
-      <div className={`mx-auto border-4 h-screen flex items-center w-screen ${user ? '' : `image`} `}>
-        {user ? <RouterProvider router={router} /> : <Register />}
+      <div className={`mx-auto h-screen flex items-center w-screen ${user ? '' : `image`} `}>
+        {/* {user ? <RouterProvider router={router} /> : <Register />} */}
+        <RouterProvider router={router} />
       </div>
     </>
   )

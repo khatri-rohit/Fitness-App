@@ -6,6 +6,7 @@ import DashBoard from './pages/DashBoard';
 import Register from './components/Register';
 import Login from './components/Login';
 import './App.css'
+import Calendar from './pages/Calendar';
 
 const App = () => {
 
@@ -15,7 +16,7 @@ const App = () => {
     createRoutesFromElements(
       <Route path='/' element={<Home />} >
         <Route path='/dashboard' element={<DashBoard />} />
-        {/* <Route path='/' element={<Register />} /> */}
+        <Route path='/Calendar' element={<Calendar />} />
       </Route>
     )
   )

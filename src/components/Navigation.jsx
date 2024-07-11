@@ -1,5 +1,7 @@
 import { Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
+import { useFireabse } from '../context/Firebase'
+import { NavLink } from 'react-router-dom'
 
 const navigation = [
     { name: 'Dashboard', href: '#', current: true },
@@ -13,6 +15,9 @@ function classNames(...classes) {
 }
 
 export default function Navigation() {
+
+    const { signOutUser } = useFireabse()
+
     return (
         <Disclosure as="nav" className="bg-gray-800">
             <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
@@ -27,19 +32,19 @@ export default function Navigation() {
                         </DisclosureButton>
                     </div>
                     <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
-                        <div className="flex flex-shrink-0 items-center">
+                        <NavLink to={"/dashboard"} className="flex flex-shrink-0 items-center">
                             <img
                                 alt="Your Company"
-                                src="/public/img/icon-1.png"
+                                src="/img/icon-1.png"
                                 className="h-8 w-auto"
                             />
-                        </div>
+                        </NavLink>
                         <div className="hidden sm:ml-6 sm:block">
                             <div className="flex space-x-4">
                                 {navigation.map((item) => (
-                                    <a
+                                    <NavLink
                                         key={item.name}
-                                        href={item.href}
+                                        to={`${(item.name).toLowerCase()}`}
                                         aria-current={item.current ? 'page' : undefined}
                                         className={classNames(
                                             item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
@@ -47,7 +52,7 @@ export default function Navigation() {
                                         )}
                                     >
                                         {item.name}
-                                    </a>
+                                    </NavLink>
                                 ))}
                             </div>
                         </div>
@@ -90,7 +95,7 @@ export default function Navigation() {
                                     </a>
                                 </MenuItem>
                                 <MenuItem>
-                                    <a href="#" className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100">
+                                    <a href="#" className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100" onClick={signOutUser}>
                                         Sign out
                                     </a>
                                 </MenuItem>

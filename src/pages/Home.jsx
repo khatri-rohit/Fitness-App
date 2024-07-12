@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { Outlet, useNavigate } from "react-router-dom";
 import { useFireabse } from "../context/Firebase";
 import Model from "../components/Model";

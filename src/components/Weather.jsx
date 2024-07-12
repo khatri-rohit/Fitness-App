@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { FaMapLocationDot } from "react-icons/fa6";
 import { CiTempHigh } from "react-icons/ci";
 import { TbTemperatureCelsius } from "react-icons/tb";
+import { GiRaining } from "react-icons/gi";
 
 const Weather = () => {
 
@@ -15,15 +16,15 @@ const Weather = () => {
             const options = {
                 method: 'GET',
                 headers: {
-                    'x-rapidapi-key': '175a467426mshe8285a4a411f620p16192bjsna983e4d66aed',
+                    'x-rapidapi-key': '4fe11c7460msh49b7b139e4fe884p160e21jsna6d9161d0b74',
                     'x-rapidapi-host': 'weatherbit-v1-mashape.p.rapidapi.com'
                 }
             };
-            const url = `https://weatherbit-v1-mashape.p.rapidapi.com/current?lon=${log}&lat=${lat}&units=metric&lang=en`;
+            const url = `https://weatherbit-v1-mashape.p.rapidapi.com/current?lon=${log}&lat=${lat}&units=matric&lang=en`;
             const response = await fetch(url, options)
             const result = await response.json()
-            setWeather(result.data)
-            console.log(result.data)
+            setWeather(result.data[0])
+            console.log(result.data[0])
             console.log(weather);
             setLoading(false)
         } catch (err) {
@@ -39,46 +40,55 @@ const Weather = () => {
             setLat(pos.coords.latitude)
             setlog(pos.coords.longitude)
         })
-        getWeather(lat, log)
+        // getWeather(lat, log)
     }, [lat, log])
 
-    // if (loading)
-    //     return <p className="text-xl text-center">Loading Weather...</p>
+    if (loading)
+        return <div className="md:mx-3 p-3">
+            <p className="text-xl text-center">Loading Weather...</p>
+        </div>
 
     return (
         <>
-            <div className="border-2 p-3 md:w-1/3">
-                <div className="">
-                    <p className="text-lg">Weather</p>
+            <div className="md:mx-3 p-3">
+                <div className="bg-slate-100 md:p-4 p-3">
+                    <p className="text-lg md:text-xl font-bold">Weather</p>
                     <div className="flex justify-between items-start">
                         <div className="flex items-start">
                             <FaMapLocationDot className="mt-2 mx-2 text-gray-500" />
-                            <span className="text-4xl font-semibold mx-2">Ajmer</span>
+                            <span className="md:text-4xl text-xl font-semibold mx-2">{weather?.city_name}</span>
                         </div>
                         <div className="bg-slate-200 rounded-lg">
-                            <img src="/public/img/weather/a01n.png" />
+                            <img src={`/img/weather/${weather?.weather.icon}.png`} />
                         </div>
                     </div>
-                    <div className="flex my-2 border-2 justify-between p-3">
+                    <div className="flex my-2 justify-between p-3">
                         <div className="flex flex-col items-center">
                             <CiTempHigh className="text-4xl" />
-                            <div className="flex items-center">
-                                <p className="text-2xl font-bold">30</p>
-                                <TbTemperatureCelsius className="" />
+                            <div className="flex items-center flex-col">
+                                <div className="flex items-center">
+                                    <p className="text-xl md:text-2xl font-bold">{weather?.temp}</p>
+                                    <TbTemperatureCelsius className="text-xl md:text-2xl" />
+                                </div>
+                                <span className="text-gray-400 font-medium text-xs md:text-lg">Temp</span>
+                            </div>
+                        </div>
+                        <div className="flex flex-col items-center">
+                            <GiRaining className="text-4xl" />
+                            <div className="flex items-center flex-col">
+                                <div className="flex items-center">
+                                    <p className="text-xl md:text-2xl font-bold">{weather?.precip} mm</p>
+                                </div>
+                                <span className="text-gray-400 font-medium text-xs md:text-lg">Rain</span>
                             </div>
                         </div>
                         <div className="flex flex-col items-center">
                             <CiTempHigh className="text-4xl" />
-                            <div className="flex items-center">
-                                <p className="text-2xl font-bold">30</p>
-                                <TbTemperatureCelsius className="" />
-                            </div>
-                        </div>
-                        <div className="flex flex-col items-center">
-                            <CiTempHigh className="text-4xl" />
-                            <div className="flex items-center">
-                                <p className="text-2xl font-bold">30</p>
-                                <TbTemperatureCelsius className="" />
+                            <div className="flex items-center flex-col">
+                                <div className="flex items-center">
+                                    <p className="text-xl md:text-2xl font-bold">{weather?.wind_spd} Km/h</p>
+                                </div>
+                                <span className="text-gray-400 font-medium text-xs md:text-lg">Wind</span>
                             </div>
                         </div>
                     </div>

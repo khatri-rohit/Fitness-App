@@ -11,7 +11,7 @@ import {
     signInWithEmailAndPassword,
     GoogleAuthProvider
 } from 'firebase/auth'
-import { getFirestore, collection, addDoc, getDocs, setDoc, doc } from 'firebase/firestore'
+import { getFirestore, collection, addDoc, getDocs, setDoc, doc, getDoc, updateDoc } from 'firebase/firestore'
 
 const firebaseConfig = {
     apiKey: "AIzaSyASiuW4wI7mODSmrjjjYxdBGDWtrfQ9GVM",
@@ -42,11 +42,14 @@ export const ContextProvider = ({ children }) => {
 
     const [user, setUser] = useState(null) // On Auth State Changed
     const [isLoggedIn, setIsLoggedIn] = useState(true) // Login Page
-    const [showModel, setShowModel] = useState(true) // Data Model Popup
+    const [showModel, setShowModel] = useState(false) // Data Model Popup
     const [newUser, setNewUser] = useState(null)
+    const [Event, setEvent] = useState([])
 
     // Add Doc To Users Collection Firestore
-    const createUserDatabase = async ({ email, uid, accessToken, metadata: { createdAt, creationTime, lastLoginAt, lastSignInTime } },
+    const createUserDatabase = async ({ email, uid, accessToken,
+        metadata: { createdAt, creationTime, lastLoginAt, lastSignInTime }
+    },
         { name, age, weight, height }) => {
 
         try {
@@ -62,14 +65,34 @@ export const ContextProvider = ({ children }) => {
                 metadata: {
                     createdAt, creationTime,
                     lastLoginAt, lastSignInTime
-                }
+                },
+                Event: []
             });
             console.log("Document written with ID: ", docRef.id);
-            setNewUser(null)
-
         } catch (error) {
             setNewUser(null)
             console.log(error + "\nError Acuured While create Data");
+        }
+    }
+
+    // Update Specific Data 
+    const updateEvent = async (email, Events) => {
+        const setEvent = doc(firestore, "users", email);
+        await updateDoc(setEvent, {
+            Event: Events
+        })
+    }
+
+    // Check user Exists or Not
+    const checkExistingUser = async (email) => {
+        const docRef = doc(firestore, "users", email);
+        const docSnap = await getDoc(docRef);
+        if (docSnap.exists()) {
+            console.log("Documnet Data: ", docSnap.data());
+            setShowModel(false)
+        } else {
+            console.log("No Such Document Exists");
+            setShowModel(true)
         }
     }
 
@@ -99,6 +122,7 @@ export const ContextProvider = ({ children }) => {
                 // const emailVerified = user.emailVerified;
                 // console.log(displayName);
                 console.log(email);
+                setNewUser({ ...newUser, email })
                 // console.log(photoURL);
                 // console.log(emailVerified);
                 console.log("OAuthStateChanged");
@@ -124,7 +148,11 @@ export const ContextProvider = ({ children }) => {
             setShowModel,
             createUserDatabase,
             newUser,
-            setNewUser
+            setNewUser,
+            checkExistingUser,
+            Event,
+            setEvent,
+            updateEvent
         }}>
             {children}
         </FirebaseContext.Provider>

@@ -9,7 +9,7 @@ import { useEffect } from "react";
 
 export const Home = () => {
 
-    const { signOutUser, showModel, isLoggedIn } = useFireabse()
+    const { showModel, isLoggedIn } = useFireabse()
     const navigate = useNavigate()
 
     useEffect(() => {
@@ -19,14 +19,12 @@ export const Home = () => {
     return (
         <>
             <div className="relative overflow-x-hidden">
-                {/* {isLoggedIn ? showModel && <Model /> : null} */}
-                {/*  */}
-                {/* <div className={`bg-gray-50 -z-10 w-screen h-screen ${showModel ? `model` : ``} `}> */}
-                <div className={`bg-gray-50 -z-10 w-screen h-screen `}>
+                {isLoggedIn ? showModel && <Model /> : null}
+                <div className={`bg-gray-50 -z-10 w-screen h-screen ${showModel ? `model` : ``} `}>
+                    {/* <div className={`bg-gray-50 -z-10 w-screen h-screen `}> */}
                     <Navigation />
                     <Outlet />
                     <Footer />
-                    {/* <button className="block p-2 bg-gray-700 text-white" onClick={signOutUser}>Sign Out</button  > */}
                 </div>
             </div>
         </>

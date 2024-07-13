@@ -2,11 +2,12 @@ import { Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuIt
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import { useFireabse } from '../context/Firebase'
 import { NavLink } from 'react-router-dom'
+import { PiSignOutBold } from "react-icons/pi";
 
 const navigation = [
     { name: 'Dashboard', href: '/dashboard', current: true },
-    { name: 'Workout', href: '#', current: false },
-    { name: 'Projects', href: '#', current: false },
+    { name: 'Workout', href: '/workout', current: false },
+    { name: 'Projects', href: '/projects', current: false },
     { name: 'Calendar', href: '/calendar', current: false },
 ]
 
@@ -15,8 +16,8 @@ function classNames(...classes) {
 }
 
 export default function Navigation() {
-
     const { signOutUser } = useFireabse()
+    const active = "text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium"
 
     return (
         <Disclosure as="nav" className="bg-gray-800">
@@ -46,10 +47,7 @@ export default function Navigation() {
                                         key={item.name}
                                         to={item.href}
                                         aria-current={item.current ? 'page' : undefined}
-                                        className={classNames(
-                                            item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
-                                            'rounded-md px-3 py-2 text-sm font-medium',
-                                        )}
+                                        className={({ isActive }) => isActive ? `bg-gray-900 text-white ${active}` : active}
                                     >
                                         {item.name}
                                     </NavLink>
@@ -58,18 +56,22 @@ export default function Navigation() {
                         </div>
                     </div>
                     <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-                        <button
+                        {/* <button
                             type="button"
                             className="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
                         >
                             <span className="absolute -inset-1.5" />
                             <span className="sr-only">View notifications</span>
                             <BellIcon aria-hidden="true" className="h-6 w-6" />
-                        </button>
+                        </button> */}
+
+                        <div className="m-2">
+                            <p className='text-xl text-white'>Hello, Rohit</p>
+                        </div>
 
                         {/* Profile dropdown */}
                         <Menu as="div" className="relative ml-3">
-                            <div>
+                            <div className='flex' >
                                 <MenuButton className="relative flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
                                     <div className="flex items-center">
                                         <div className="">
@@ -81,11 +83,13 @@ export default function Navigation() {
                                                 className="h-8 w-8 rounded-full"
                                             />
                                         </div>
-                                        <div className="m-2">
-                                            <p className='text-xl text-white'>Hello, Rohit</p>
-                                        </div>
                                     </div>
                                 </MenuButton>
+                                <div className="mx-2">
+                                    <button className="block p-2 bg-gray-700 text-white rounded-lg" onClick={signOutUser}>
+                                        <PiSignOutBold />
+                                    </button>
+                                </div>
                             </div>
                             <MenuItems
                                 transition

@@ -4,11 +4,9 @@ import { useFireabse } from "../context/Firebase";
 import { FcGoogle } from "react-icons/fc";
 import { signInWithPopup } from 'firebase/auth'
 
-
 const Register = () => {
 
     const { createUser, setIsLoggedIn, FirebaseAuth, authProvider, setShowModel, newUser, setNewUser } = useFireabse()
-
     const [email, setEmail] = useState('')
     const [pass, setPass] = useState('')
 
@@ -22,8 +20,8 @@ const Register = () => {
                 console.log("Account Created");
                 const { email, metadata, accessToken, uid } = userCredential.user
                 setNewUser({ email, accessToken, uid, metadata })
-                console.log(newUser);
                 setShowModel(true)
+                console.log(newUser.email);
             }).catch((error) => {
                 const errorCode = error.code;
                 const errorMessage = error.message;
@@ -43,6 +41,7 @@ const Register = () => {
             alert("Please Enter Valid Email")
         }
     }
+
 
     const handleGoogleSign = async () => {
         try {

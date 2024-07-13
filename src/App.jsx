@@ -7,6 +7,8 @@ import Register from './components/Register';
 import Login from './components/Login';
 import './App.css'
 import MyCalendar from './pages/MyCalendar';
+import Workout from './pages/Workout';
+import Projects from './pages/Projects';
 
 const App = () => {
 
@@ -17,6 +19,8 @@ const App = () => {
       <Route path='/' element={<Home />} >
         <Route path='/dashboard' element={<DashBoard />} />
         <Route path='/calendar' element={<MyCalendar />} />
+        <Route path='/workout' element={<Workout />} />
+        <Route path='/projects' element={<Projects />} />
       </Route>
     )
   )
@@ -30,8 +34,9 @@ const App = () => {
   return (
     <>
       <div className={`mx-auto h-screen flex items-center w-screen ${user ? '' : `image`} `}>
-        {/* {user ? <RouterProvider router={router} /> : <Register />} */}
-        <RouterProvider router={router} />
+        {/* <div className={`mx-auto h-screen flex items-center w-screen `}> */}
+        {user ? <RouterProvider router={router} /> : <Register />}
+        {/* <RouterProvider router={router} /> */}
       </div>
     </>
   )

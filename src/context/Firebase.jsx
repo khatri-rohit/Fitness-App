@@ -69,6 +69,8 @@ export const ContextProvider = ({ children }) => {
                 Event: []
             });
             console.log("Document written with ID: ", docRef.id);
+            console.log("No Such Document Exists");
+            setShowModel(true)
         } catch (error) {
             setNewUser(null)
             console.log(error + "\nError Acuured While create Data");
@@ -81,6 +83,12 @@ export const ContextProvider = ({ children }) => {
         await updateDoc(setEvent, {
             Event: Events
         })
+        console.log(Event);
+    }
+
+    // Get Data
+    const getData = () => {
+
     }
 
     // Check user Exists or Not
@@ -89,6 +97,9 @@ export const ContextProvider = ({ children }) => {
         const docSnap = await getDoc(docRef);
         if (docSnap.exists()) {
             console.log("Documnet Data: ", docSnap.data());
+            setEvent(docSnap.data().Event)
+            console.log(docSnap.data().Event);
+            console.log("Get Data");
             setShowModel(false)
         } else {
             console.log("No Such Document Exists");
@@ -116,15 +127,9 @@ export const ContextProvider = ({ children }) => {
     useEffect(() => {
         onAuthStateChanged(FirebaseAuth, (user) => {
             if (user !== null) {
-                // const displayName = user.displayName;
                 const email = user.email;
-                // const photoURL = user.photoURL;
-                // const emailVerified = user.emailVerified;
-                // console.log(displayName);
-                console.log(email);
                 setNewUser({ ...newUser, email })
-                // console.log(photoURL);
-                // console.log(emailVerified);
+                checkExistingUser(user.email)
                 console.log("OAuthStateChanged");
                 setUser(user)
             }
@@ -132,6 +137,7 @@ export const ContextProvider = ({ children }) => {
                 setUser(null)
             }
         })
+
     }, [user])
 
     return (

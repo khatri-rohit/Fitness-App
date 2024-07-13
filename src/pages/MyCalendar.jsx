@@ -11,7 +11,7 @@ const MyCalendar = () => {
     const { newUser, Event, setEvent, updateEvent } = useFireabse()
     const { email } = newUser
 
-    const [events, setEvents] = useState(Event)
+    const [events, setEvents] = useState([])
     const [showModel, setShowModel] = useState(false)
     const [selectedData, setSelectedData] = useState(null)
     const [eventTitle, setEventTitle] = useState('')
@@ -63,20 +63,6 @@ const MyCalendar = () => {
             setSelectEvent(null)
         }
     }
-
-    // const saveEventy = () => {
-    //     if (eventTitle && selectedData) {
-    //         const newEvent = {
-    //             title: eventTitle,
-    //             start: selectedData,
-    //             end: moment(selectedData).add(1, "hours").toDate(),
-    //         }
-    //         setEvents([...events, newEvent])
-    //         setShowModel(false)
-    //         console.log(events);
-    //         setEventTitle('')
-    //     }
-    // }
 
     useEffect(() => {
         updateEvent(email, Event)

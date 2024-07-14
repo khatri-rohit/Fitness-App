@@ -66,11 +66,11 @@ export const ContextProvider = ({ children }) => {
                     createdAt, creationTime,
                     lastLoginAt, lastSignInTime
                 },
-                Event: []
+                Event: Event
             });
             console.log("Document written with ID: ", docRef.id);
             console.log("No Such Document Exists");
-            setShowModel(true)
+            setShowModel(false)
         } catch (error) {
             setNewUser(null)
             console.log(error + "\nError Acuured While create Data");
@@ -79,11 +79,11 @@ export const ContextProvider = ({ children }) => {
 
     // Update Specific Data 
     const updateEvent = async (email, Events) => {
-        const setEvent = doc(firestore, "users", email);
-        await updateDoc(setEvent, {
+        const docRef = doc(firestore, "users", email);
+        await updateDoc(docRef, {
             Event: Events
         })
-        console.log(Event);
+        console.log(Events);
     }
 
     // Get Data
@@ -97,9 +97,9 @@ export const ContextProvider = ({ children }) => {
         const docSnap = await getDoc(docRef);
         if (docSnap.exists()) {
             console.log("Documnet Data: ", docSnap.data());
-            setEvent(docSnap.data().Event)
             console.log(docSnap.data().Event);
             console.log("Get Data");
+            setEvent(docSnap.data().Event)
             setShowModel(false)
         } else {
             console.log("No Such Document Exists");

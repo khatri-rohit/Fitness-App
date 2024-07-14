@@ -2,6 +2,7 @@
 import '../styles/Popup.css'
 
 const CalModel = ({ setShowModel, saveEvent, eventTitle, setEventTitle, setSelectEvent, selectEvent, deleteEvent }) => {
+
     return (
         <>
             <div className="overlay-container absolute inset-0 zindex flex flex-col items-center p-3 mt-10">

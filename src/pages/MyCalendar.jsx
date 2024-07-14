@@ -4,30 +4,38 @@ import moment from 'moment'
 import { useEffect, useState } from 'react';
 import CalModel from '../components/CalModel';
 import { useFireabse } from '../context/Firebase';
+import { Timestamp } from 'firebase/firestore';
 
 const localizer = momentLocalizer(moment)
 
 const MyCalendar = () => {
-    const { newUser, Event, setEvent, updateEvent } = useFireabse()
+    const { newUser, Event, setEvent, updateEvent, checkExistingUser } = useFireabse()
     const { email } = newUser
 
-    const [events, setEvents] = useState([])
+    const [events, setEvents] = useState([{
+        title: "Do it now",
+        start: { Timestamp: "15 July 2024 at 01:00:00 UTC+5:30" },
+        end: { Timestamp: "15 July 2024 at 01:00:00 UTC+5:30" },
+    }])
     const [showModel, setShowModel] = useState(false)
     const [selectedData, setSelectedData] = useState(null)
     const [eventTitle, setEventTitle] = useState('')
     const [selectEvent, setSelectEvent] = useState(null)
 
+    console.log(events);
 
     const handleSelectShot = (slotInfo) => {
         setShowModel(true)
         setSelectedData(slotInfo.start)
         setSelectEvent(null)
+        console.log("Showing Data 2");
     }
 
     const handleSelectedEvent = (event) => {
         setShowModel(true)
         setSelectEvent(event)
         setEventTitle(event.title)
+        console.log("Showing Data");
     }
 
     const deleteEvent = () => {
@@ -47,7 +55,7 @@ const MyCalendar = () => {
                 const updateEvent = { ...selectEvent, title: eventTitle }
                 const updateEvents = events.map((event) => event === selectEvent ? updateEvent : event)
                 setEvents(updateEvents)
-                setEvent(events)
+                setEvent(updateEvents)
                 console.log(Event);
             } else {
                 const newEvent = {
@@ -64,9 +72,15 @@ const MyCalendar = () => {
         }
     }
 
-    useEffect(() => {
-        updateEvent(email, Event)
-    }, [Event])
+    // useEffect(() => {
+    //     updateEvent(email, Event)
+    //     console.log("Updating Data");
+    // }, [Event])
+
+    // useEffect(() => {
+    //     const event = checkExistingUser(email)
+    //     setEvents(event)
+    // }, [Event])
 
     return (
         <>
@@ -87,7 +101,18 @@ const MyCalendar = () => {
                 <div className="w-full border-2 p-2" style={{ height: "80vh" }}>
                     <Calendar
                         localizer={localizer}
-                        events={events}
+                        events={[
+                            {
+                                title: "Rohit",
+                                start: { Timestamp: "21 July 2024 at 01:00:00 UTC+5:30" },
+                                end: { Timestamp: "21 July 2024 at 01:00:00 UTC+5:30" },
+                            }
+                            , {
+                                title: "Rohit",
+                                start: { Timestamp: "21 July 2024 at 01:00:00 UTC+5:30" },
+                                end: { Timestamp: "21 July 2024 at 01:00:00 UTC+5:30" },
+                            }
+                        ]}
                         startAccessor="start"
                         endAccessor="end"
                         selectable={true}

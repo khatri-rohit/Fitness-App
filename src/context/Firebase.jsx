@@ -73,12 +73,32 @@ export const ContextProvider = ({ children }) => {
 
     // Get Data
     const setData = async ({ email, uid, accessToken },
-        { name, age, height, weight }) => {
+        { male,
+            female,
+            nonBinary,
+            notToSay,
+            name,
+            gainMuscle,
+            loseFat,
+            bodyType,
+            age,
+            height,
+            weight }) => {
         try {
             const docRef = doc(firestore, "users", email);
             await setDoc(docRef, {
                 email, uid, accessToken,
-                name, age, height, weight
+                male,
+                female,
+                nonBinary,
+                notToSay,
+                name,
+                gainMuscle,
+                loseFat,
+                bodyType,
+                age,
+                height,
+                weight
             });
             console.log("Document written with ID: ", docRef.id);
             setShowModel(false)

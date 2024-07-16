@@ -6,7 +6,7 @@ import { signInWithPopup } from 'firebase/auth'
 
 const Register = () => {
 
-    const { createUser, setIsLoggedIn, FirebaseAuth, authProvider, setShowModel, newUser, setNewUser } = useFireabse()
+    const { createUser, setIsLoggedIn, FirebaseAuth, authProvider, setShowModel, newUser, setNewUser, createUserDatabase, } = useFireabse()
     const [email, setEmail] = useState('')
     const [pass, setPass] = useState('')
 
@@ -17,11 +17,11 @@ const Register = () => {
 
         if (regEx.test(email)) { // Operation perform only when email is valid 
             createUser(email, pass).then((userCredential) => {
-                console.log("Account Created");
-                const { email, metadata, accessToken, uid } = userCredential.user
-                setNewUser({ email, accessToken, uid, metadata })
-                setShowModel(true)
+                const { email, accessToken, uid } = userCredential.user
+                // setNewUser({ email, uid, accessToken, metadata })
+                createUserDatabase({ email, uid, accessToken })
                 console.log(newUser.email);
+                setShowModel(true)
             }).catch((error) => {
                 const errorCode = error.code;
                 const errorMessage = error.message;

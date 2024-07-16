@@ -1,10 +1,13 @@
+/* eslint-disable no-unused-vars */
+import '../styles/stepper.css'
 import { useState } from "react";
 import { useFireabse } from "../context/Firebase";
+import { TiTick } from 'react-icons/ti'
 import '../styles/Popup.css'
 
 
 const Model = () => {
-    const { setShowModel, newUser, createUserDatabase } = useFireabse()
+    const { setShowModel, newUser, setData } = useFireabse()
 
     const [userData, setUserData] = useState({
         name: '',
@@ -15,13 +18,71 @@ const Model = () => {
 
     const handelSubmit = (e) => {
         e.preventDefault()
-        createUserDatabase(newUser, userData)
+        console.log(newUser);
+        setData(newUser, userData)
         setShowModel(false)
     }
 
+    const prograssBar = [
+        {
+            id: 1,
+            name: "Gender",
+            completed: false,
+        },
+        {
+            id: 2,
+            name: "Name",
+            completed: false,
+        },
+        {
+            id: 3,
+            name: "Goal",
+            completed: false,
+        },
+        {
+            id: 4,
+            name: "Body Type",
+            completed: false,
+        },
+        {
+            id: 5,
+            name: "Age/Height/Weight",
+            completed: false,
+        },
+    ]
+
+    const [currentStep, setCurrentStep] = useState(1)
+
     return (
         <>
-            <div className="overlay-container container absolute inset-0 z-10 drop-shadow-2xl mx-auto bg-gray-100 h-fit my-10 w-3/4 md:w-1/4 md:p-8 p-5 rounded-3xl">
+            <div className="container absolute top-20 left-[25%] z-10 drop-shadow-2xl mx-auto bg-gray-100 h-fit md:w-1/2 md:p-8 p-5 rounded-3xl">
+                <div className="flex flex-col w-full">
+                    {/* Stepper */}
+                    <div className="my-2 flex justify-center">
+                        {prograssBar.map((step, i) => (
+                            <div className={`step-item ${currentStep === i + 1 && 'active'} ${i + 1 < currentStep && 'complete'} `} key={i}>
+                                <div className="step">
+                                    {step.id < currentStep ? <TiTick size={24} /> : step.id}
+                                </div>
+                                <p className="text-gray-700">
+                                    {step.name}
+                                </p>
+                            </div>
+                        ))}
+                    </div>
+
+                    <div className="">
+                        Hello
+                    </div>
+
+                    <button className='px-3 py-2 bg-green-400 w-fit mx-auto my-2 text-white' onClick={() => setCurrentStep(prev => prev + 1)}>
+                        Next
+                    </button>
+                </div>
+            </div>
+
+
+            {/* <div className="overlay-container container absolute inset-0 z-10 drop-shadow-2xl mx-auto bg-gray-100 h-fit w-3/4 md:w-1/4 md:p-8 p-5 rounded-3xl">
                 <div className="md:mb-5 mb-2">
                     <p className="md:text-lg text-xl lg:text-3xl text-center m-3 drop-shadow-lg font-thin">
                         About You
@@ -90,7 +151,7 @@ const Model = () => {
                         </span>
                     </p>
                 </div> */}
-                {/* <div className="mx-auto w-fit">
+            {/* <div className="mx-auto w-fit">
                     <button onClick={() => setShowModel(false)} className="w-full flex items-center mx-1 p-2 bg-gray-200 font-medium">
                         Sign Up with Google
                         <span className="mx-1 text-2xl">
@@ -98,7 +159,8 @@ const Model = () => {
                         </span>
                     </button>
                 </div> */}
-            </div>
+
+            {/* </div>  */}
         </>
     )
 };

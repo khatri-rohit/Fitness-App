@@ -11,7 +11,7 @@ import {
     signInWithEmailAndPassword,
     GoogleAuthProvider
 } from 'firebase/auth'
-import { getFirestore, collection, addDoc, getDocs, setDoc, doc, getDoc, updateDoc } from 'firebase/firestore'
+import { getFirestore, collection, addDoc, getDocs, setDoc, doc, getDoc, updateDoc, Timestamp } from 'firebase/firestore'
 
 const firebaseConfig = {
     apiKey: "AIzaSyASiuW4wI7mODSmrjjjYxdBGDWtrfQ9GVM",
@@ -47,33 +47,18 @@ export const ContextProvider = ({ children }) => {
     const [Event, setEvent] = useState([])
 
     // Add Doc To Users Collection Firestore
-    const createUserDatabase = async ({ email, uid, accessToken,
-        metadata: { createdAt, creationTime, lastLoginAt, lastSignInTime }
-    },
-        { name, age, weight, height }) => {
-
+    const createUserDatabase = async ({ email, uid, accessToken }) => {
         try {
             const docRef = doc(firestore, "users", email);
             await setDoc(docRef, {
-                email,
-                name,
-                accessToken,
-                age,
-                height,
-                weight,
-                uid,
-                metadata: {
-                    createdAt, creationTime,
-                    lastLoginAt, lastSignInTime
-                },
-                Event: Event
+                email, uid, accessToken, metadata: { Created_At: Date.now() }
             });
+            console.log("Account Created");
             console.log("Document written with ID: ", docRef.id);
-            console.log("No Such Document Exists");
-            setShowModel(false)
+            setShowModel(true)
         } catch (error) {
             setNewUser(null)
-            console.log(error + "\nError Acuured While create Data");
+            console.log(error);
         }
     }
 
@@ -87,8 +72,20 @@ export const ContextProvider = ({ children }) => {
     }
 
     // Get Data
-    const getData = () => {
-
+    const setData = async ({ email, uid, accessToken },
+        { name, age, height, weight }) => {
+        try {
+            const docRef = doc(firestore, "users", email);
+            await setDoc(docRef, {
+                email, uid, accessToken,
+                name, age, height, weight
+            });
+            console.log("Document written with ID: ", docRef.id);
+            setShowModel(false)
+        } catch (error) {
+            setNewUser(null)
+            console.log(error);
+        }
     }
 
     // Check user Exists or Not
@@ -97,10 +94,9 @@ export const ContextProvider = ({ children }) => {
         const docSnap = await getDoc(docRef);
         if (docSnap.exists()) {
             console.log("Documnet Data: ", docSnap.data());
-            console.log(docSnap.data().Event);
+            console.log(docSnap.data());
+            docSnap.data().name ? setShowModel(false) : setShowModel(true)
             console.log("Get Data");
-            setEvent(docSnap.data().Event)
-            setShowModel(false)
         } else {
             console.log("No Such Document Exists");
             setShowModel(true)
@@ -128,10 +124,12 @@ export const ContextProvider = ({ children }) => {
         onAuthStateChanged(FirebaseAuth, (user) => {
             if (user !== null) {
                 const email = user.email;
-                setNewUser({ ...newUser, email })
-                checkExistingUser(user.email)
-                console.log("OAuthStateChanged");
+                const uid = user.uid;
                 setUser(user)
+                console.log(user);
+                setNewUser(user)
+                checkExistingUser(email)
+                console.log("OAuthStateChanged");
             }
             else {
                 setUser(null)
@@ -155,7 +153,7 @@ export const ContextProvider = ({ children }) => {
             createUserDatabase,
             newUser,
             setNewUser,
-            checkExistingUser,
+            setData,
             Event,
             setEvent,
             updateEvent

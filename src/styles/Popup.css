@@ -3,9 +3,11 @@
 }
 
 .model {
-  filter: blur(4px);
+  filter: blur(2px);
+  opacity: 30%;
 }
-.zindex{
+
+.zindex {
   z-index: 10;
 }
 

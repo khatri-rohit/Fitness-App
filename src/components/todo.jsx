@@ -52,8 +52,9 @@ const Todo = () => {
                     {allNotes?.length ? (
                         allNotes.map((note, _) => {
                             console.log(note.note);
+                            console.log('show todo list');
                             return <div key={_} className="group flex justify-between items-center">
-                                <p>{note.note}</p>
+                                <p>{note?.note}</p>
                                 <button className='bg-gray-600 px-2 py-1 rounded-md invisible group-hover:visible'>Del</button>
                             </div>
                         })

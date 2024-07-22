@@ -78,7 +78,7 @@ export const ContextProvider = ({ children }) => {
         await updateDoc(docRef, {
             notes
         })
-        console.log(notes + "Notes Updated in Database");
+        console.log([...notes] + "Notes Updated in Database");
     }
 
     // Get Data

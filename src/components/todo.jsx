@@ -25,8 +25,12 @@ const Todo = () => {
     }
 
     useEffect(() => {
-        setAllNotes(newUser.notes)
-    }, [allNotes])
+        if (newUser.notes) {
+            const noting = newUser.notes
+            setAllNotes(noting)
+            console.log(noting);
+        }
+    }, [])
 
 
     return (
@@ -49,12 +53,12 @@ const Todo = () => {
                     <button className="px-3 bg-white rounded-lg" onSubmit={handleNotes}>Do it</button>
                 </form>)}
                 <div className="text-xl text-white font-light p-2 px-3">
-                    {allNotes?.length ? (
+                    {allNotes.length ? (
                         allNotes.map((note, _) => {
                             console.log(note.note);
                             console.log('show todo list');
                             return <div key={_} className="group flex justify-between items-center">
-                                <p>{note?.note}</p>
+                                <p>{note.note}</p>
                                 <button className='bg-gray-600 px-2 py-1 rounded-md invisible group-hover:visible'>Del</button>
                             </div>
                         })

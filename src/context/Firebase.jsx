@@ -46,12 +46,13 @@ export const ContextProvider = ({ children }) => {
     const [newUser, setNewUser] = useState(null)
     const [Event, setEvent] = useState([])
 
+
     // Add Doc To Users Collection Firestore
-    const createUserDatabase = async ({ email, uid, accessToken }) => {
+    const createUserDatabase = async ({ email, uid }) => {
         try {
             const docRef = doc(firestore, "users", email);
             await setDoc(docRef, {
-                email, uid, accessToken, metadata: { Created_At: Date.now() }
+                email, uid, metadata: { Created_At: Date.now() }
             });
             console.log("Account Created");
             console.log("Document written with ID: ", docRef.id);
@@ -71,8 +72,17 @@ export const ContextProvider = ({ children }) => {
         console.log(Events);
     }
 
+    // Set Notes
+    const uploadNotes = async (email, notes) => {
+        const docRef = doc(firestore, "users", email);
+        await updateDoc(docRef, {
+            notes
+        })
+        console.log(notes + "Notes Updated in Database");
+    }
+
     // Get Data
-    const setData = async ({ email, uid, accessToken },
+    const setData = async ({ email, uid },
         { male,
             female,
             nonBinary,
@@ -87,7 +97,7 @@ export const ContextProvider = ({ children }) => {
         try {
             const docRef = doc(firestore, "users", email);
             await setDoc(docRef, {
-                email, uid, accessToken,
+                email, uid,
                 male,
                 female,
                 nonBinary,
@@ -113,10 +123,11 @@ export const ContextProvider = ({ children }) => {
         const docRef = doc(firestore, "users", email);
         const docSnap = await getDoc(docRef);
         if (docSnap.exists()) {
-            console.log("Documnet Data: ", docSnap.data());
-            console.log(docSnap.data());
+            console.log("Documnet Data: ",);
             docSnap.data().name ? setShowModel(false) : setShowModel(true)
-            console.log("Get Data");
+            const AllNotes = docSnap.data().notes;
+            console.log(AllNotes);
+            setNewUser(docSnap.data())
         } else {
             console.log("No Such Document Exists");
             setShowModel(true)
@@ -176,7 +187,8 @@ export const ContextProvider = ({ children }) => {
             setData,
             Event,
             setEvent,
-            updateEvent
+            updateEvent,
+            uploadNotes,
         }}>
             {children}
         </FirebaseContext.Provider>

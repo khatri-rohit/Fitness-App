@@ -32,3 +32,13 @@
     transform: translateY(0);
   }
 }
+
+@media (min-width: 480px) {
+  .res-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .res-grid .todo{
+    grid-row: span 3;
+  }
+}

@@ -31,7 +31,7 @@ const FirebaseAuth = getAuth(FirebaseApp)
 // Instance of Google Auth Provider
 const authProvider = new GoogleAuthProvider()
 // Firestore
-const firestore = getFirestore(FirebaseApp)
+export const firestore = getFirestore(FirebaseApp)
 
 const FirebaseContext = createContext(null)
 
@@ -78,7 +78,7 @@ export const ContextProvider = ({ children }) => {
         await updateDoc(docRef, {
             notes
         })
-        console.log([...notes] + "Notes Updated in Database");
+        console.log(notes + "Notes Updated in Database");
     }
 
     // Get Data
@@ -123,14 +123,13 @@ export const ContextProvider = ({ children }) => {
         const docRef = doc(firestore, "users", email);
         const docSnap = await getDoc(docRef);
         if (docSnap.exists()) {
-            console.log("Documnet Data: ",);
-            docSnap.data().name ? setShowModel(false) : setShowModel(true)
-            const AllNotes = docSnap.data().notes;
-            console.log(AllNotes);
-            setNewUser(docSnap.data())
+            console.log("Such Document Exists");
+            await docSnap.data().name ? setShowModel(false) : setShowModel(true);
+            const AllNotes = await docSnap.data().notes;
+            setNewUser({ ...newUser, AllNotes });
         } else {
             console.log("No Such Document Exists");
-            setShowModel(true)
+            setShowModel(true);
         }
     }
 

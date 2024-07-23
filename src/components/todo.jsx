@@ -1,20 +1,19 @@
 /* eslint-disable no-unused-vars */
 import { useEffect, useState } from 'react';
 import { LuCalendarPlus, LuCalendarMinus } from 'react-icons/lu'
-import { useFireabse } from '../context/Firebase';
+import { useFireabse, firestore } from '../context/Firebase';
+import { doc, getDoc } from 'firebase/firestore';
 
 const Todo = () => {
     const [addNote, setAddNotes] = useState(false)
     const [Notes, setNotes] = useState('')
     const [allNotes, setAllNotes] = useState([])
 
-    const { uploadNotes, user, newUser } = useFireabse()
-    const { email } = user
+    const { uploadNotes, user } = useFireabse()
+    const { email, notes } = user
 
     const handleNotes = e => {
         e.preventDefault()
-        console.log("Rohit");
-        setAllNotes(prev => ([...prev, { note: Notes }]))
         setNotes('')
         setAddNotes(false)
         var newNotes = [...allNotes]
@@ -25,11 +24,17 @@ const Todo = () => {
     }
 
     useEffect(() => {
-        if (newUser.notes) {
-            const noting = newUser.notes
-            setAllNotes(noting)
-            console.log(noting);
-        }
+        (async () => {
+            const docRef = doc(firestore, "users", email);
+            const docSnap = await getDoc(docRef);
+            if (docSnap.exists()) {
+                console.log("Notes fetched");
+                const AllNotes = docSnap.data().notes;
+                setAllNotes(AllNotes);
+            } else {
+                console.log("Not Notes fetched");
+            }
+        })()
     }, [])
 
 
@@ -53,7 +58,7 @@ const Todo = () => {
                     <button className="px-3 bg-white rounded-lg" onSubmit={handleNotes}>Do it</button>
                 </form>)}
                 <div className="text-xl text-white font-light p-2 px-3">
-                    {allNotes.length ? (
+                    {allNotes?.length > 0 ? (
                         allNotes.map((note, _) => {
                             console.log(note.note);
                             console.log('show todo list');

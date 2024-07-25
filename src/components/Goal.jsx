@@ -34,7 +34,6 @@ const Goal = () => {
                     <p className="text-xl text-white font-medium">
                         {goal}
                     </p>
-
                 </div>
             </div >
         </>

@@ -1,8 +1,8 @@
 import { Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
-import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
+import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
 import { useFireabse } from '../context/Firebase'
 import { NavLink } from 'react-router-dom'
-import { PiSignOutBold } from "react-icons/pi";
+import { useEffect, useState } from 'react'
 
 const navigation = [
     { name: 'Dashboard', href: '/dashboard', current: true },
@@ -16,8 +16,11 @@ function classNames(...classes) {
 }
 
 export default function Navigation() {
-    const { signOutUser } = useFireabse()
-    const active = "text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium"
+    const { signOutUser, userName } = useFireabse();
+    const active = "text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium";
+
+    // useEffect(() => {
+    // }, [])
 
     return (
         <Disclosure as="nav" className="bg-gray-800">
@@ -66,7 +69,8 @@ export default function Navigation() {
                         </button> */}
 
                         <div className="m-2">
-                            <p className='text-xl text-white'>Hello, Rohit</p>
+                            <span className="text-sm text-gray-400">Hey,</span>
+                            <p className="text-lg mx-4 font-medium text-white">{userName}</p>
                         </div>
 
                         {/* Profile dropdown */}
@@ -85,11 +89,11 @@ export default function Navigation() {
                                         </div>
                                     </div>
                                 </MenuButton>
-                                <div className="mx-2">
+                                {/* <div className="mx-2">
                                     <button className="block p-2 bg-gray-700 text-white rounded-lg" onClick={signOutUser}>
                                         <PiSignOutBold />
                                     </button>
-                                </div>
+                                </div> */}
                             </div>
                             <MenuItems
                                 transition

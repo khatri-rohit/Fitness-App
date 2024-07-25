@@ -45,6 +45,8 @@ export const ContextProvider = ({ children }) => {
     const [showModel, setShowModel] = useState(false) // Data Model Popup
     const [newUser, setNewUser] = useState(null)
     const [Event, setEvent] = useState([])
+    const [userName, setUserName] = useState("Your Name");
+
 
 
     // Add Doc To Users Collection Firestore
@@ -125,6 +127,8 @@ export const ContextProvider = ({ children }) => {
         if (docSnap.exists()) {
             console.log("Such Document Exists");
             await docSnap.data().name ? setShowModel(false) : setShowModel(true);
+            const name = await docSnap.data().name;
+            setUserName(name)
             const AllNotes = await docSnap.data().notes;
             setNewUser({ ...newUser, AllNotes });
         } else {
@@ -188,6 +192,7 @@ export const ContextProvider = ({ children }) => {
             setEvent,
             updateEvent,
             uploadNotes,
+            userName
         }}>
             {children}
         </FirebaseContext.Provider>

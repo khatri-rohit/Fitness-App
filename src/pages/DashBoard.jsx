@@ -1,6 +1,7 @@
 import '../styles/Popup.css'
 import Todo from "../components/todo";
 import Weather from "../components/Weather";
+import Goal from '../components/Goal';
 
 const DashBoard = () => {
   return (
@@ -21,7 +22,9 @@ const DashBoard = () => {
           <div className="todo my-3 mx-3">
             <Todo />
           </div>
-         
+          <div className="todo my-3 mx-3">
+            <Goal />
+          </div>
         </div>
       </div>
     </>

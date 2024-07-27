@@ -19,7 +19,7 @@ const Goal = () => {
                 setGoal(goal);
             }
             else {
-                console.log("Data Don't Exist");
+                console.log("Goal is Not Fetched Properly");
             }
         })()
     });

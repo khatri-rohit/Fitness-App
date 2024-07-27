@@ -5,34 +5,47 @@ import { useFireabse, firestore } from '../context/Firebase';
 import { doc, getDoc } from 'firebase/firestore';
 
 const Todo = () => {
-    const [addNote, setAddNotes] = useState(false)
-    const [Notes, setNotes] = useState('')
-    const [allNotes, setAllNotes] = useState([])
+    const [addNote, setAddNotes] = useState(false);
+    const [Notes, setNotes] = useState('');
+    const [allNotes, setAllNotes] = useState([]);
+    const [delId, setDelId] = useState(0);
 
-    const { uploadNotes, user } = useFireabse()
-    const { email, notes } = user
+    const { uploadNotes, user } = useFireabse();
+    const { email } = user;
 
     const handleNotes = e => {
-        e.preventDefault()
-        setNotes('')
-        setAddNotes(false)
-        var newNotes = [...allNotes]
-        newNotes.push({ note: Notes })
-        console.log(newNotes);
+        e.preventDefault();
+        var newNotes = [...allNotes];
+        newNotes.push({ note: Notes, id: delId });
+        setAllNotes(newNotes);
         uploadNotes(email, newNotes);
+        setNotes('');
+        setAddNotes(false);
+        setDelId(prev => prev + 1);
+        console.log(newNotes);
         console.log(allNotes);
+    }
+
+    const handleDelete = id => {
+        const newNotes = allNotes.filter(note => note.id !== id);
+        setAllNotes(newNotes);
+        uploadNotes(email, newNotes);
     }
 
     useEffect(() => {
         (async () => {
-            const docRef = doc(firestore, "users", email);
-            const docSnap = await getDoc(docRef);
-            if (docSnap.exists()) {
-                console.log("Notes fetched");
-                const AllNotes = docSnap.data().notes;
-                setAllNotes(AllNotes);
-            } else {
-                console.log("Not Notes fetched");
+            try {
+                const docRef = doc(firestore, "users", email);
+                const docSnap = await getDoc(docRef);
+                if (docSnap.exists()) {
+                    console.log("Notes fetched");
+                    const AllNotes = docSnap.data().notes;
+                    setAllNotes(AllNotes);
+                } else {
+                    console.log("Not Notes fetched");
+                }
+            } catch (error) {
+                console.log("UnExpected Error While Fetching Notes\n" + error);
             }
         })()
     }, [])
@@ -64,7 +77,10 @@ const Todo = () => {
                             console.log('show todo list');
                             return <div key={_} className="group flex justify-between items-center">
                                 <p>{note.note}</p>
-                                <button className='bg-gray-600 px-2 py-1 rounded-md invisible group-hover:visible'>Del</button>
+                                <button onClick={() => handleDelete(note.id)}
+                                    className='bg-gray-600 px-2 py-1 rounded-md invisible group-hover:visible'>
+                                    Del
+                                </button>
                             </div>
                         })
                     ) : (<p className="text-xl text-gray-300">Set Your Todo list</p>)}

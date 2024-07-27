@@ -26,12 +26,12 @@ const Goal = () => {
 
     return (
         <>
-            <div className="mt-5 p-3 rounded-br-xl drop-shadow-xl bg-slate-500">
-                <div className="flex items-center mb-2 ">
-                    <p className="text-2xl text-white font-medium">
+            <div className="mt-5 p-3 rounded-xl drop-shadow-xl bg-slate-500">
+                <div className="mb-2">
+                    <p className="text-gray-200 font-normal">
                         Your Goal
                     </p>
-                    <p className="text-xl text-white font-medium">
+                    <p className="text-2xl text-white font-medium drop-shadow-xl my-5">
                         {goal}
                     </p>
                 </div>

@@ -38,7 +38,8 @@
     display: grid;
     grid-template-columns: repeat(3, 1fr);
   }
-  .res-grid .todo{
-    grid-row: span 3;
+
+  .res-grid .todo {
+    /* grid-row: span 3; */
   }
 }

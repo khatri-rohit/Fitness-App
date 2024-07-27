@@ -110,7 +110,9 @@ export const ContextProvider = ({ children }) => {
                 bodyType,
                 age,
                 height,
-                weight
+                weight,
+                notes: [],
+                date: new Date()
             });
             console.log("Document written with ID: ", docRef.id);
             setShowModel(false)

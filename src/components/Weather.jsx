@@ -3,6 +3,7 @@ import { FaMapLocationDot } from "react-icons/fa6";
 import { CiTempHigh } from "react-icons/ci";
 import { TbTemperatureCelsius } from "react-icons/tb";
 import { GiRaining } from "react-icons/gi";
+import { DotLoader } from 'react-spinners'
 
 const Weather = () => {
 
@@ -32,20 +33,26 @@ const Weather = () => {
         } finally {
             setLoading(false)
         }
-
     }
 
     useEffect(() => {
-        navigator.geolocation.getCurrentPosition((pos) => {
-            setLat(pos.coords.latitude)
-            setlog(pos.coords.longitude)
-        })
-        // getWeather(lat, log)
+        try {
+            navigator.geolocation.getCurrentPosition((pos) => {
+                setLat(pos.coords.latitude)
+                setlog(pos.coords.longitude)
+            })
+            // getWeather(lat, log)
+        } catch (error) {
+            console.log("UnExpected Error Accured While Fetching Weather\n" + error);
+        }
     }, [lat, log])
 
     if (loading)
-        return <div className="md:mx-3 p-3">
-            <p className="text-xl text-center">Loading Weather...</p>
+        return <div className="md:mx-3 p-3 flex justify-center">
+            <DotLoader
+                color="#6EACDA"
+                size={30}
+            />
         </div>
 
     return (

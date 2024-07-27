@@ -5,8 +5,7 @@ import '../../styles/stepper.css'
 const Details = ({ userData, setUserData }) => {
 
   const wheelCapture = (e) => {
-    e.currentTarget.blur()
-
+    e.currentTarget.blur();
   }
 
   return (
@@ -18,15 +17,18 @@ const Details = ({ userData, setUserData }) => {
       </div>
       <div className="flex justify-center h-20">
         <input
-          type="text"
+          type="number"
           name="age"
           value={userData.age}
           placeholder="Age"
           className="bg-transparent text-3xl w-44 outline-none indent-12"
-          onChange={(e) => setUserData((prev) => ({
-            ...prev,
-            age: e.target.value
-          }))}
+          onChange={(e) => {
+            wheelCapture
+            setUserData((prev) => ({
+              ...prev,
+              age: e.target.value
+            }))
+          }}
         />
       </div>
       <div className="">
@@ -40,7 +42,7 @@ const Details = ({ userData, setUserData }) => {
           name="height"
           value={userData.height}
           placeholder="height"
-          className="noscroll bg-transparent text-3xl w-44 outline-none indent-12"
+          className="bg-transparent text-3xl w-44 outline-none indent-12"
           onChange={(e) => {
             wheelCapture
             setUserData((prev) => ({

@@ -35,7 +35,7 @@ const Goal = () => {
                         {goal}
                     </p>
                 </div>
-            </div >
+            </div>
         </>
     )
 };

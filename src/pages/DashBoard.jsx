@@ -6,6 +6,7 @@ import Goal from '../components/Goal';
 import { useEffect, useState } from 'react';
 import { firestore, useFireabse } from '../context/Firebase';
 import { doc, getDoc } from 'firebase/firestore';
+import Exercise from '../components/Exercise';
 
 const DashBoard = () => {
 
@@ -70,7 +71,7 @@ const DashBoard = () => {
           </div>
 
           <div className="todo my-3 mx-3">
-            <Todo />
+            <Exercise />
           </div>
 
           <div className="todo my-3 mx-3">

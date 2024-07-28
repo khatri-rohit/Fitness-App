@@ -11,15 +11,19 @@ const Goal = () => {
 
     useEffect(() => {
         (async () => {
-            const docRef = doc(firestore, "users", email);
-            const docSnap = await getDoc(docRef);
-            if (docSnap.exists()) {
-                const muscle = docSnap.data().gainMuscle;
-                const goal = muscle ? "Gain Muscle & Strenght" : "Lose Weight & Body Fat";
-                setGoal(goal);
-            }
-            else {
-                console.log("Goal is Not Fetched Properly");
+            try {
+                const docRef = doc(firestore, "users", email);
+                const docSnap = await getDoc(docRef);
+                if (docSnap.exists()) {
+                    const muscle = docSnap.data().gainMuscle;
+                    const goal = muscle ? "Gain Muscle & Strenght" : "Lose Weight & Body Fat";
+                    setGoal(goal);
+                }
+                else {
+                    console.log("Goal is Not Fetched Properly");
+                }
+            } catch (error) {
+                console.log("Error Occured While Fetching Goal\n" + error);
             }
         })()
     });

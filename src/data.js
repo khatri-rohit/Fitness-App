@@ -13,8 +13,8 @@ export const Abdomen = [
 
 export const Body = [
     "UpperBody",
-    "LowerBody",
-    "Abdomen"
+    "Abdomen",
+    "LowerBody"
 ]
 
 

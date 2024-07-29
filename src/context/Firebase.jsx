@@ -74,13 +74,22 @@ export const ContextProvider = ({ children }) => {
         console.log(Events);
     }
 
-    // Set Notes
+    // Update Notes
     const uploadNotes = async (email, notes) => {
         const docRef = doc(firestore, "users", email);
         await updateDoc(docRef, {
             notes
         })
         console.log(notes + "Notes Updated in Database");
+    }
+
+    // Update Exercise
+    const uploadExercise = async (email, exer) => {
+        const docRef = doc(firestore, "users", email);
+        await updateDoc(docRef, {
+            exer
+        })
+        console.log(exer + "Exericse Updated in Database");
     }
 
     // Get Data
@@ -112,6 +121,7 @@ export const ContextProvider = ({ children }) => {
                 height,
                 weight,
                 notes: [],
+                exer: [],
                 date: new Date()
             });
             console.log("Document written with ID: ", docRef.id);
@@ -194,7 +204,8 @@ export const ContextProvider = ({ children }) => {
             setEvent,
             updateEvent,
             uploadNotes,
-            userName
+            userName,
+            uploadExercise
         }}>
             {children}
         </FirebaseContext.Provider>

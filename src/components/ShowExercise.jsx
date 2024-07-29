@@ -1,33 +1,47 @@
-/* eslint-disable no-unused-vars */
+/* eslint-disable react/prop-types */
 import { useEffect, useState } from 'react';
 import { Abdomen, Body, LowerBody, UpperBody } from '../data'
 import { firestore, useFireabse } from '../context/Firebase';
 import { doc, getDoc } from 'firebase/firestore';
 import { FaChevronDown, FaChevronUp } from 'react-icons/fa6';
+import { ImCross } from "react-icons/im";
+import { GiCheckMark } from 'react-icons/gi';
 
-const ShowExercise = () => {
+const ShowExercise = ({ setShow, setTotal, exercises, setExercises }) => {
     const [goal, setGoal] = useState("");
     const [category, setCategory] = useState("");
-    const [bodyPart, setBodyPart] = useState("Upper Body");
     // 
     const [showCate, setShowCate] = useState(false);
     const [body, setBody] = useState(false);
     const [exercise, setExercise] = useState(false);
     // 
     const options = ["Gain Muscle & Strenght", "Lose Weight & Body Fat"];
-    const bodypart = ["Upper Body", "Abdomin", "Lower Body"];
-    const [selectedBody, setSelectedBody] = useState(bodypart[0]);
-    const [exercises, setExercises] = useState([]);
+    const [selectedBody, setSelectedBody] = useState(Body[0]);
 
-    const { user } = useFireabse();
+    const { user, uploadExercise } = useFireabse();
     const { email } = user;
 
-
     const handleEx = select => {
-        const newArray = [...exercises, select];
-        setExercises(exercises.filter(exer => exer !== select));
+        const exerciseExists = exercises.some(exer => exer.ex === select);
+        if (!exerciseExists) {
+            const newExercise = { ex: select, check: false };
+            const updateExercise = [...exercises, newExercise];
+            setExercises(updateExercise);
+            uploadExercise(email, updateExercise);
+            setTotal(updateExercise.length);
+        }
     }
 
+    const handleCheck = exercise => {
+        const updateExecrise = exercises.map((exer => {
+            if (exer.ex === exercise) {
+                return { ...exer, check: !exer.check };
+            }
+            return exer;
+        }));
+        setExercises(updateExecrise);
+        uploadExercise(email, updateExecrise);
+    }
 
     useEffect(() => {
         (async () => {
@@ -41,19 +55,24 @@ const ShowExercise = () => {
                     setCategory(goal);
                 }
                 else {
-                    console.log("Goal is Not Fetched Properly");
+                    console.log("Goal Exercise is Not Fetched Properly");
                 }
             } catch (error) {
-                console.log("Error Occured While Fetching Goal\n" + error);
+                console.log("Error Occured While Fetching Goal Exercise\n" + error);
             }
         })()
-    }, [])
+    }, [email])
 
     return (
         <>
+            <div className="flex justify-between py-2">
+                {goal}
+                <div className='cursor-pointer' onClick={() => setShow(false)}>
+                    <ImCross />
+                </div>
+            </div>
             <div className="flex justify-center">
                 <div className="w-1/2">
-                    {goal}
                     <div className="p-2">
                         <p className="text-xl font-medium">
                             Choose Exercises
@@ -98,12 +117,13 @@ const ShowExercise = () => {
                             </div>
                             {body && (
                                 <div className="w-2/3 border-2" >
-                                    {bodypart.map((option, _) => (
+                                    {Body.map((option, _) => (
                                         <p className="p-2 hover:bg-slate-200 cursor-pointer"
                                             key={_}
                                             onClick={() => {
                                                 setSelectedBody(option);
                                                 setBody(false);
+                                                setExercise(false);
                                             }}>
                                             {option}
                                         </p>
@@ -123,7 +143,7 @@ const ShowExercise = () => {
                             </div>
                             {exercise && (
                                 <div className="w-2/3 border-2" >
-                                    {selectedBody === "Upper Body" ? (
+                                    {selectedBody === "UpperBody" ? (
                                         <>
                                             {UpperBody.map((exer, _) => (
                                                 <p className="p-2 hover:bg-slate-200 cursor-pointer"
@@ -134,7 +154,7 @@ const ShowExercise = () => {
                                                 </p>
                                             ))}
                                         </>
-                                    ) : selectedBody === "Abdomin" ? <>
+                                    ) : selectedBody === "Abdomen" ? <>
                                         {Abdomen.map((exer, _) => (
                                             <p className="p-2 hover:bg-slate-200 cursor-pointer"
                                                 onClick={() => handleEx(exer)}
@@ -143,7 +163,7 @@ const ShowExercise = () => {
                                                 {exer}
                                             </p>
                                         ))}
-                                    </> : selectedBody === "Lower Body" ?
+                                    </> : selectedBody === "LowerBody" ?
                                         <>
                                             {LowerBody.map((exer, _) => (
                                                 <p className="p-2 hover:bg-slate-200 cursor-pointer"
@@ -161,12 +181,22 @@ const ShowExercise = () => {
                         </div>
                     </div>
                 </div>
-                <div className="w-1/2 border-2 border-s-2">
-                    {setExercises.length > 0 ? exercises.map((exer, _) => (
-                        <p className="text-xl" key={_}>
-                            {exer}
-                        </p>
-                    )) : "No Exercise is yet"}
+                <div className="w-1/2 border-s-2">
+                    {exercises.length > 0 ? (
+                        <div className="p-3">
+                            {exercises?.map((exer, _) => {
+                                return (
+                                    <div className="my-1 flex justify-between p-2 items-start cursor-pointer"
+                                        key={_} onClick={() => handleCheck(exer.ex)}>
+                                        <p className={`font-medium ${exer.check && "line-through"}`}>
+                                            {exer.ex}
+                                        </p>
+                                        {exer.check ? <GiCheckMark /> : <span className="text-md font-light">To-Do</span>}
+                                    </div>
+                                )
+                            })}
+                        </div>
+                    ) : <p className="text-2xl text-center font-semibold">No Exercise is Selected</p>}
                 </div>
             </div>
         </>

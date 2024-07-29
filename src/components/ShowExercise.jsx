@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import { useEffect, useState } from 'react';
-import { Abdomen, Body, LowerBody, UpperBody } from '../data'
+import { Abdomen, Body, LowerBodyGain, UpperBodyGain, LowerBodyLose, UpperBodyLose } from '../data'
 import { firestore, useFireabse } from '../context/Firebase';
 import { doc, getDoc } from 'firebase/firestore';
 import { FaChevronDown, FaChevronUp } from 'react-icons/fa6';
@@ -141,21 +141,10 @@ const ShowExercise = ({ setShow, setTotal, exercises, setExercises }) => {
                                         ? <FaChevronUp /> : <FaChevronDown />
                                 }
                             </div>
-                            {exercise && (
-                                <div className="w-2/3 border-2" >
-                                    {selectedBody === "UpperBody" ? (
-                                        <>
-                                            {UpperBody.map((exer, _) => (
-                                                <p className="p-2 hover:bg-slate-200 cursor-pointer"
-                                                    onClick={() => handleEx(exer)}
-                                                    key={_}
-                                                >
-                                                    {exer}
-                                                </p>
-                                            ))}
-                                        </>
-                                    ) : selectedBody === "Abdomen" ? <>
-                                        {Abdomen.map((exer, _) => (
+                            {exercise && (category === "Gain Muscle & Strenght" ? (<div className="w-2/3 border-2" >
+                                {selectedBody === "UpperBody" ? (
+                                    <>
+                                        {UpperBodyGain.map((exer, _) => (
                                             <p className="p-2 hover:bg-slate-200 cursor-pointer"
                                                 onClick={() => handleEx(exer)}
                                                 key={_}
@@ -163,20 +152,60 @@ const ShowExercise = ({ setShow, setTotal, exercises, setExercises }) => {
                                                 {exer}
                                             </p>
                                         ))}
-                                    </> : selectedBody === "LowerBody" ?
-                                        <>
-                                            {LowerBody.map((exer, _) => (
-                                                <p className="p-2 hover:bg-slate-200 cursor-pointer"
-                                                    onClick={() => handleEx(exer)}
-                                                    key={_}
-                                                >
-                                                    {exer}
-                                                </p>
-                                            ))}
-                                        </> : null}
-                                </div>
-                            )}
-
+                                    </>
+                                ) : selectedBody === "Abdomen" ? <>
+                                    {Abdomen.map((exer, _) => (
+                                        <p className="p-2 hover:bg-slate-200 cursor-pointer"
+                                            onClick={() => handleEx(exer)}
+                                            key={_}
+                                        >
+                                            {exer}
+                                        </p>
+                                    ))}
+                                </> : selectedBody === "LowerBody" ?
+                                    <>
+                                        {LowerBodyGain.map((exer, _) => (
+                                            <p className="p-2 hover:bg-slate-200 cursor-pointer"
+                                                onClick={() => handleEx(exer)}
+                                                key={_}
+                                            >
+                                                {exer}
+                                            </p>
+                                        ))}
+                                    </> : null}
+                            </div>) : category === "Lose Weight & Body Fat" ? (<div className="w-2/3 border-2" >
+                                {selectedBody === "UpperBody" ? (
+                                    <>
+                                        {UpperBodyLose.map((exer, _) => (
+                                            <p className="p-2 hover:bg-slate-200 cursor-pointer"
+                                                onClick={() => handleEx(exer)}
+                                                key={_}
+                                            >
+                                                {exer}
+                                            </p>
+                                        ))}
+                                    </>
+                                ) : selectedBody === "Abdomen" ? <>
+                                    {Abdomen.map((exer, _) => (
+                                        <p className="p-2 hover:bg-slate-200 cursor-pointer"
+                                            onClick={() => handleEx(exer)}
+                                            key={_}
+                                        >
+                                            {exer}
+                                        </p>
+                                    ))}
+                                </> : selectedBody === "LowerBody" ?
+                                    <>
+                                        {LowerBodyLose.map((exer, _) => (
+                                            <p className="p-2 hover:bg-slate-200 cursor-pointer"
+                                                onClick={() => handleEx(exer)}
+                                                key={_}
+                                            >
+                                                {exer}
+                                            </p>
+                                        ))}
+                                    </> : null}
+                            </div>) : null)}
 
                         </div>
                     </div>

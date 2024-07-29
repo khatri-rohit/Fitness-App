@@ -9,7 +9,7 @@ const Details = ({ userData, setUserData }) => {
   }
 
   return (
-    <div className="">
+    <div className="p-1">
       <div className="">
         <p className="text-xl">
           What's your age?

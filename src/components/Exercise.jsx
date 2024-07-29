@@ -33,6 +33,22 @@ const Exercise = () => {
                 console.log("Error Occured While Fetching Goal Exercise\n" + error);
             }
         })()
+
+        // Empty Exercise Every New Day
+        const now = new Date();
+        const midnight = new Date();
+        midnight.setHours(24, 0, 0, 0); // Set to next midnight
+        const timeUntilMidnight = midnight - now;
+
+        // Set a timeout to reset exercises at midnight
+        const timeoutId = setTimeout(() => {
+            setExercises([]);
+            console.log("Exercises reset at midnight");
+        }, timeUntilMidnight);
+
+        // Clear the timeout if the component unmounts
+        return () => clearTimeout(timeoutId);
+
     }, [email])
 
     useEffect(() => {

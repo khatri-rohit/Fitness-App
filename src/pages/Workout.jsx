@@ -100,7 +100,7 @@ const Workout = () => {
                         ].map((tab) => (
                             <p
                                 key={tab.key}
-                                className={`text-lg md:text-2xl py-2 md:py-4 px-4 md:px-6 cursor-pointer transition duration-300 ${selectedTab === tab.title
+                                className={`text-md md:text-2xl py-2 md:py-4 px-4 md:px-6 cursor-pointer transition duration-300 ${selectedTab === tab.title
                                     ? "border-blue-500 border-b-4 font-bold text-black"
                                     : "text-gray-500 border-b-4 border-gray-200 hover:text-gray-700"
                                     }`}

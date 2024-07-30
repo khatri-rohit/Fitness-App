@@ -17,7 +17,7 @@ const Weather = () => {
             const options = {
                 method: 'GET',
                 headers: {
-                    'x-rapidapi-key': '4fe11c7460msh49b7b139e4fe884p160e21jsna6d9161d0b74',
+                    'x-rapidapi-key': '175a467426mshe8285a4a411f620p16192bjsna983e4d66aed',
                     'x-rapidapi-host': 'weatherbit-v1-mashape.p.rapidapi.com'
                 },
             };
@@ -26,7 +26,8 @@ const Weather = () => {
             const result = await response.json();
             setWeather(result.data[0]);
             console.log(result.data[0]);
-            console.log(weather);
+            console.log(weather?.weather.icon);
+
             setLoading(false);
         } catch (err) {
             console.log(err);

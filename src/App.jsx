@@ -6,9 +6,8 @@ import DashBoard from './pages/DashBoard';
 import Register from './components/Register';
 import Login from './components/Login';
 import './App.css'
-import MyCalendar from './pages/MyCalendar';
 import Workout from './pages/Workout';
-import Projects from './pages/Projects';
+import Redirect from './pages/Redirect';
 
 const App = () => {
 
@@ -18,9 +17,8 @@ const App = () => {
     createRoutesFromElements(
       <Route path='/' element={<Home />} >
         <Route path='/dashboard' element={<DashBoard />} />
-        <Route path='/calendar' element={<MyCalendar />} />
         <Route path='/workout' element={<Workout />} />
-        <Route path='/projects' element={<Projects />} />
+        <Route path='/*' element={<Redirect />} />
       </Route>
     )
   )

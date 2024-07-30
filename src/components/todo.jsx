@@ -22,8 +22,6 @@ const Todo = () => {
         setNotes('');
         setAddNotes(false);
         setDelId(prev => prev + 1);
-        console.log(newNotes);
-        console.log(allNotes);
     }
 
     const handleDelete = id => {
@@ -73,8 +71,6 @@ const Todo = () => {
                 <div className="text-xl text-white font-light p-2 px-3">
                     {allNotes?.length > 0 ? (
                         allNotes.map((note, _) => {
-                            console.log(note.note);
-                            console.log('show todo list');
                             return <div key={_} className="group flex justify-between items-center">
                                 <p>{note.note}</p>
                                 <button onClick={() => handleDelete(note.id)}

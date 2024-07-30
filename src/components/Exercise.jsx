@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import ShowExercise from './ShowExercise';
 import { firestore, useFireabse } from '../context/Firebase';
 import { doc, getDoc } from 'firebase/firestore';
+import { GiCheckMark } from 'react-icons/gi';
 
 const Exercise = () => {
     const [show, setShow] = useState(false);
@@ -94,8 +95,7 @@ const Exercise = () => {
                             trailColor="white"
                         />
                         <span className="text-white absolute md:inset-x-3 inset-x-7 lg:inset-x-16 md:text-3xl text-md">
-                            {count}/
-                            {total}
+                            {count == total ? <GiCheckMark /> : count + "/" + total}
                         </span>
                     </div>
                 </div>

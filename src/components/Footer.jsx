@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 const Footer = () => {
     return (
         <>
-            <footer className="m-0 bg-gray-800 ">
+            <footer className="mt-10 bg-gray-800 ">
                 <div className="p-3 text-gray-200 w-full flex  justify-between items-center">
                     <img
                         href="https://flowbite.com"

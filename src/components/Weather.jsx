@@ -3,14 +3,14 @@ import { FaMapLocationDot } from "react-icons/fa6";
 import { CiTempHigh } from "react-icons/ci";
 import { TbTemperatureCelsius } from "react-icons/tb";
 import { GiRaining } from "react-icons/gi";
-import { DotLoader } from 'react-spinners'
+import { DotLoader } from 'react-spinners';
 
 const Weather = () => {
 
-    const [lat, setLat] = useState('26.4499')
-    const [log, setlog] = useState('74.6399')
-    const [loading, setLoading] = useState(true)
-    const [weather, setWeather] = useState([])
+    const [lat, setLat] = useState('26.4499');
+    const [log, setlog] = useState('74.6399');
+    const [loading, setLoading] = useState(true);
+    const [weather, setWeather] = useState([]);
 
     const getWeather = async (lat, log) => {
         try {
@@ -19,29 +19,29 @@ const Weather = () => {
                 headers: {
                     'x-rapidapi-key': '4fe11c7460msh49b7b139e4fe884p160e21jsna6d9161d0b74',
                     'x-rapidapi-host': 'weatherbit-v1-mashape.p.rapidapi.com'
-                }
+                },
             };
             const url = `https://weatherbit-v1-mashape.p.rapidapi.com/current?lon=${log}&lat=${lat}&units=matric&lang=en`;
-            const response = await fetch(url, options)
-            const result = await response.json()
-            setWeather(result.data[0])
-            console.log(result.data[0])
+            const response = await fetch(url, options);
+            const result = await response.json();
+            setWeather(result.data[0]);
+            console.log(result.data[0]);
             console.log(weather);
-            setLoading(false)
+            setLoading(false);
         } catch (err) {
             console.log(err);
         } finally {
-            setLoading(false)
+            setLoading(false);
         }
     }
 
     useEffect(() => {
         try {
             navigator.geolocation.getCurrentPosition((pos) => {
-                setLat(pos.coords.latitude)
-                setlog(pos.coords.longitude)
+                setLat(pos.coords.latitude);
+                setlog(pos.coords.longitude);
             })
-            // getWeather(lat, log)
+            getWeather(lat, log);
         } catch (error) {
             console.log("UnExpected Error Accured While Fetching Weather\n" + error);
         }

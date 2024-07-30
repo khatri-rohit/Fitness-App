@@ -43,7 +43,7 @@ const DashBoard = () => {
 
   return (
     <>
-      <div className="md:container mx-auto h-screen md:p-2 p-5">
+      <div className="md:container mx-auto md:p-2 p-5">
         <div className="flex justify-between">
           <div className="">
             <span className="text-lg text-gray-400">Primary</span>
@@ -58,16 +58,13 @@ const DashBoard = () => {
             <Weather />
           </div>
           */}
-          <div className="my-3">
-            <Weather />
-          </div>
-
-          <div className="todo my-3 mx-3">
-            <Todo />
-          </div>
 
           <div className="todo my-3 mx-3">
             <Goal />
+          </div>
+
+          <div className="my-3">
+            <Weather />
           </div>
 
           <div className="todo my-3 mx-3">
@@ -75,12 +72,16 @@ const DashBoard = () => {
           </div>
 
           <div className="todo my-3 mx-3">
+            <Todo />
+          </div>
+          {/* 
+          <div className="todo my-3 mx-3">
             <Goal />
           </div>
 
           <div className="todo my-3 mx-3">
             <Todo />
-          </div>
+          </div> */}
         </div>
       </div>
     </>

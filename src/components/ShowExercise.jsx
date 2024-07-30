@@ -211,7 +211,7 @@ const ShowExercise = ({ setShow, setTotal, exercises, setExercises }) => {
                     </div>
                 </div>
                 <div className="w-1/2 border-s-2">
-                    {exercises.length > 0 ? (
+                    {exercises?.length > 0 ? (
                         <div className="p-3">
                             {exercises?.map((exer, _) => {
                                 return (

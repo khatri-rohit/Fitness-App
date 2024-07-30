@@ -8,7 +8,7 @@ const Exercise = () => {
     const [show, setShow] = useState(false);
     const [precent, setPercent] = useState(0);
     const [count, setCount] = useState(0);
-    const [total, setTotal] = useState(0)
+    const [total, setTotal] = useState(0);
     const [exercises, setExercises] = useState([]);
 
     const { user } = useFireabse();
@@ -16,14 +16,15 @@ const Exercise = () => {
 
 
     useEffect(() => {
+
         (async () => {
             try {
                 const docRef = doc(firestore, "users", email);
                 const docSnap = await getDoc(docRef);
                 if (docSnap.exists()) {
                     const exer = docSnap.data().exer;
-                    setExercises(exer);
-                    console.log(exer);
+                    if (exer !== undefined)
+                        setExercises(exer);
                     console.log("Exericse Fetched");
                 }
                 else {
@@ -37,16 +38,14 @@ const Exercise = () => {
         // Empty Exercise Every New Day
         const now = new Date();
         const midnight = new Date();
-        midnight.setHours(24, 0, 0, 0); // Set to next midnight
+        midnight.setHours(24, 0, 0, 0);
         const timeUntilMidnight = midnight - now;
 
-        // Set a timeout to reset exercises at midnight
         const timeoutId = setTimeout(() => {
             setExercises([]);
             console.log("Exercises reset at midnight");
         }, timeUntilMidnight);
 
-        // Clear the timeout if the component unmounts
         return () => clearTimeout(timeoutId);
 
     }, [email])

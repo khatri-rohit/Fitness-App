@@ -65,6 +65,7 @@ const DashBoard = () => {
 
           <div className="todo my-3 mx-3">
             <Exercise />
+
           </div>
 
           <div className="todo my-3 mx-3">

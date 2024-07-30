@@ -49,15 +49,11 @@ const DashBoard = () => {
             <span className="text-lg text-gray-400">Primary</span>
             <p className="text-2xl mx-4 font-medium">Dashboard</p>
           </div>
-          <p className="text-2xl mx-4 font-medium">
+          <p className="md:text-2xl text-xl mx-4 font-medium">
             Day {days}
           </p>
         </div>
         <div className="res-grid items-start">
-          {/* <div className="md:gap-4 my-3 w-full">
-            <Weather />
-          </div>
-          */}
 
           <div className="todo my-3 mx-3">
             <Goal />
@@ -74,14 +70,7 @@ const DashBoard = () => {
           <div className="todo my-3 mx-3">
             <Todo />
           </div>
-          {/* 
-          <div className="todo my-3 mx-3">
-            <Goal />
-          </div>
 
-          <div className="todo my-3 mx-3">
-            <Todo />
-          </div> */}
         </div>
       </div>
     </>

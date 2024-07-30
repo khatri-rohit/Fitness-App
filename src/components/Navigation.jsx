@@ -2,13 +2,12 @@ import { Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuIt
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
 import { useFireabse } from '../context/Firebase'
 import { NavLink } from 'react-router-dom'
-import { useEffect, useState } from 'react'
 
 const navigation = [
     { name: 'Dashboard', href: '/dashboard', current: true },
     { name: 'Workout', href: '/workout', current: false },
-    { name: 'Projects', href: '/projects', current: false },
-    { name: 'Calendar', href: '/calendar', current: false },
+    // { name: 'Projects', href: '/projects', current: false },
+    // { name: 'Calendar', href: '/calendar', current: false },
 ]
 
 function classNames(...classes) {
@@ -82,8 +81,8 @@ export default function Navigation() {
                                             <span className="absolute -inset-1.5" />
                                             <span className="sr-only">Open user menu</span>
                                             <img
-                                                alt=""
-                                                src="/img/Snapchat.jpg"
+                                                alt="Profile Pic"
+                                                src=""
                                                 className="h-8 w-8 rounded-full"
                                             />
                                         </div>

@@ -93,7 +93,7 @@ const Exercise = () => {
                             trailWidth={3}
                             trailColor="white"
                         />
-                        <span className="text-white absolute md:inset-x-3 inset-x-7 lg:inset-x-12 md:text-xl text-md">
+                        <span className="text-white absolute md:inset-x-3 inset-x-7 lg:inset-x-16 md:text-3xl text-md">
                             {count}/
                             {total}
                         </span>

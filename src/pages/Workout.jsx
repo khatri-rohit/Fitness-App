@@ -1,7 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import { PuffLoader } from 'react-spinners';
-// import useFetch from "../hooks/useFetch";
 
 const Workout = () => {
     const [selectedTab, setSelectedTab] = useState("Workout Plans");
@@ -45,40 +44,20 @@ const Workout = () => {
                 height: '300',
                 width: '100%',
                 videoId: currentVideoId,
-                events: {
-                    onReady: onPlayerReady,
-                    onStateChange: onPlayerStateChange,
-                },
             });
         };
 
         return () => {
-            // Cleanup the player instance
             if (playerRef.current) {
                 playerRef.current.destroy();
             }
         };
     }, [currentVideoId]);
 
-    const onPlayerReady = (event) => {
-        // Player is ready
-    };
-
-    const onPlayerStateChange = (event) => {
-        // Handle player state changes
-    };
-
     const handleTabSelect = (tab) => {
         setSelectedTab(tab);
         setURL("https://youtube.googleapis.com/youtube/v3/search?q=" + encodeURIComponent(tab) + "&part=snippet&type=video&maxResults=25&videoEmbeddable=true&key=AIzaSyBMFhsPQrVsj7PVtc1kpVVUrLGam0gZRoo");
     };
-
-    // const handleVideoSelect = (videoId) => {
-    //     setCurrentVideoId(videoId);
-    //     if (playerRef.current) {
-    //         playerRef.current.loadVideoById(videoId);
-    //     }
-    // };
 
     if (error) {
         return <p className="text-3xl text-center font-semibold h-screen">Something Went Wrong</p>;
@@ -90,7 +69,7 @@ const Workout = () => {
                 <div className="my-3">
                     <p className="text-2xl mx-4 font-medium">Workouts Videos</p>
                 </div>
-                <div className="mx-auto flex justify-around items-center w-[90%]">
+                {/* <div className="mx-auto flex justify-around items-center w-[90%]">
                     <div className="flex justify-center mb-4 border-b-4">
                         {[
                             { title: "Workout Plans", key: "all-plans" },
@@ -110,7 +89,29 @@ const Workout = () => {
                             </p>
                         ))}
                     </div>
+                </div> */}
+                <div className="mx-auto flex flex-col md:flex-row justify-around items-center w-full md:w-[90%]">
+                    <div className="flex justify-center mb-4 border-b-4">
+                        {[
+                            { title: "Workout Plans", key: "all-plans" },
+                            { title: "Muscle Building", key: "muscle-building" },
+                            { title: "Weight Loss", key: "weight-loss" },
+                            { title: "Gain Strength", key: "gain-strength" },
+                        ].map((tab) => (
+                            <p
+                                key={tab.key}
+                                className={`text-lg md:text-2xl py-2 md:py-4 px-4 md:px-6 cursor-pointer transition duration-300 ${selectedTab === tab.title
+                                    ? "border-blue-500 border-b-4 font-bold text-black"
+                                    : "text-gray-500 border-b-4 border-gray-200 hover:text-gray-700"
+                                    }`}
+                                onClick={() => handleTabSelect(tab.title)}
+                            >
+                                {tab.title}
+                            </p>
+                        ))}
+                    </div>
                 </div>
+
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
                     {loading ?
                         (
@@ -125,7 +126,6 @@ const Workout = () => {
                             </div>
                         )
                         : data.map((video, index) => {
-                            // Extracting and truncating the video title
                             const title = video.snippet.title.substring(0, 40) + " ...";
                             const videoId = video.id.videoId;
 
@@ -150,18 +150,12 @@ const Workout = () => {
                         <iframe
                             className="w-full h-[300px]"
                             src={`https://www.youtube.com/embed/${currentVideoId}?rel=0&modestbranding=1`}
-                            frameBorder="0"
                             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                             allowFullScreen
                         ></iframe>
                     </div>
                 )}
-                {/* <div id="youtube-player"></div>
-                <div className="flex justify-center mt-4">
-                    <button onClick={() => playerRef.current && playerRef.current.playVideo()} className="px-4 py-2 bg-blue-500 text-white rounded">Play</button>
-                    <button onClick={() => playerRef.current && playerRef.current.pauseVideo()} className="px-4 py-2 bg-blue-500 text-white rounded">Pause</button>
-                    <button onClick={() => playerRef.current && playerRef.current.stopVideo()} className="px-4 py-2 bg-blue-500 text-white rounded">Stop</button>
-                </div> */}
+
             </div>
         </>
     );

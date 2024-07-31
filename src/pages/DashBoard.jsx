@@ -26,12 +26,10 @@ const DashBoard = () => {
           const accountCreationDate = new Date(accountCreationDateInSeconds * 1000);
           // Calculate the difference in milliseconds
           const differenceInMilliseconds = (new Date()) - accountCreationDate;
-          console.log(differenceInMilliseconds);
           // Convert milliseconds to days
           const millisecondsPerDay = 1000 * 60 * 60 * 24;
           const differenceInDays = Math.floor(differenceInMilliseconds / millisecondsPerDay);
           setDays(differenceInDays + 1)
-          console.log("DashBoard Data Fetched");
         } else {
           console.log("No DashBoard Data Exists");
         }
@@ -43,7 +41,7 @@ const DashBoard = () => {
 
   return (
     <>
-      <div className="md:container mx-auto md:p-2 p-5">
+      <div className="md:container mx-auto md:p-2 p-5 h-[110vh] md:h-[90vh]">
         <div className="flex justify-between">
           <div className="">
             <span className="text-lg text-gray-400">Primary</span>
@@ -65,7 +63,6 @@ const DashBoard = () => {
 
           <div className="todo my-3 mx-3">
             <Exercise />
-
           </div>
 
           <div className="todo my-3 mx-3">

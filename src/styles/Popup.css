@@ -38,8 +38,4 @@
     display: grid;
     grid-template-columns: repeat(2, 1fr);
   }
-
-  .res-grid .todo {
-    /* grid-row: span 2; */
-  }
 }

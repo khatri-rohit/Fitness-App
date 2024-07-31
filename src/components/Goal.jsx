@@ -4,10 +4,10 @@ import { useEffect, useState } from "react";
 import { firestore, useFireabse } from "../context/Firebase";
 
 const Goal = () => {
-    const { user } = useFireabse()
-    const { email } = user
-
     const [goal, setGoal] = useState("");
+    
+    const { user } = useFireabse();
+    const { email } = user;
 
     useEffect(() => {
         (async () => {
@@ -35,7 +35,7 @@ const Goal = () => {
                     <p className="text-gray-200 font-normal">
                         Your Goal
                     </p>
-                    <p className="text-2xl text-white font-medium drop-shadow-xl my-5">
+                    <p className="text-xl md:text-2xl text-white font-medium drop-shadow-xl my-5">
                         {goal}
                     </p>
                 </div>

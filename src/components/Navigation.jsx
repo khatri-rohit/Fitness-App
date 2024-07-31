@@ -35,7 +35,7 @@ export default function Navigation() {
                         </DisclosureButton>
                     </div>
                     <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
-                        <NavLink to={"/dashboard"} className="flex flex-shrink-0 items-center">
+                        <NavLink to={"/dashboard"} className="hidden sm:flex flex-shrink-0 items-center">
                             <img
                                 alt="Your Company"
                                 src="/img/icon-1.png"
@@ -67,9 +67,12 @@ export default function Navigation() {
                             <BellIcon aria-hidden="true" className="h-6 w-6" />
                         </button> */}
 
+                        
                         <div className="m-2">
                             <span className="text-sm text-gray-400">Hey,</span>
-                            <p className="text-lg mx-4 font-medium text-white">{userName}</p>
+                            <p className="text-lg mx-4 font-medium text-white">
+                                {userName}
+                            </p>
                         </div>
 
                         {/* Profile dropdown */}
@@ -88,21 +91,17 @@ export default function Navigation() {
                                         </div>
                                     </div>
                                 </MenuButton>
-                                {/* <div className="mx-2">
-                                    <button className="block p-2 bg-gray-700 text-white rounded-lg" onClick={signOutUser}>
-                                        <PiSignOutBold />
-                                    </button>
-                                </div> */}
+                                
                             </div>
                             <MenuItems
                                 transition
                                 className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 transition focus:outline-none data-[closed]:scale-95 data-[closed]:transform data-[closed]:opacity-0 data-[enter]:duration-100 data-[leave]:duration-75 data-[enter]:ease-out data-[leave]:ease-in"
                             >
-                                <MenuItem>
+                                {/* <MenuItem>
                                     <a href="#" className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100">
                                         Your Profile
                                     </a>
-                                </MenuItem>
+                                </MenuItem> */}
                                 {/* <MenuItem>
                                     <a href="#" className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100">
                                         Settings

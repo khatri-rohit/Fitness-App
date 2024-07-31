@@ -20,9 +20,7 @@ export const Home = () => {
         <>
             <div className="w-screen">
                 {isLoggedIn && showModel && <Model />}
-                {/* {isLoggedIn ? showModel && <Model /> : null} */}
                 <div className={`bg-gray-50 mx-auto w-screen ${showModel ? `model` : ``} `}>
-                    {/* <div className={`bg-gray-50 -z-10 w-screen h-screen `}> */}
                     <Navigation />
                     <Outlet />
                     <Footer />

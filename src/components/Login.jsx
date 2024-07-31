@@ -1,23 +1,24 @@
-import { useState } from "react";
-// import { FcGoogle } from "react-icons/fc";
 import { useFireabse } from "../context/Firebase";
+import { useForm } from "react-hook-form";
 
 const Login = () => {
+    const { loginUser, setIsLoggedIn } = useFireabse();
 
-    const { loginUser, setIsLoggedIn } = useFireabse()
-    const [email, setEmail] = useState('')
-    const [pass, setPass] = useState('')
+    const {
+        register,
+        handleSubmit,
+        formState: { isSubmitting, errors },
+        reset,
+    } = useForm();
 
-    const userLogin = (e) => {
-        e.preventDefault()
-        loginUser(email, pass).then((userCredentials) => {
+    const userLogin = async (data) => {
+        const { email, password } = data
+        await loginUser(email, password).then((userCredentials) => {
             if (userCredentials.user) {
-                alert("Login Successfully")
-                console.log(userCredentials.user.email);
-                setIsLoggedIn(true)
+                reset();
+                setIsLoggedIn(true);
             }
         }).catch((error) => {
-            console.log(error);
             console.error(error);
         })
     }
@@ -29,16 +30,21 @@ const Login = () => {
                     Login your Account
                 </p>
             </div>
-            <form className="max-w-sm mx-auto flex flex-col justify-center items-center mb-2" onSubmit={userLogin}>
+            <form className="max-w-sm mx-auto flex flex-col justify-center items-center mb-2" onSubmit={handleSubmit(userLogin)}>
                 <div className="mb-5 w-full">
                     <label htmlFor="email"
                         className="block mb-2 text-sm font-medium text-gray-900 ">
                         Your email
                     </label>
                     <input
-                        value={email}
-                        onChange={e => setEmail(e.target.value)}
-                        type="email" id="email" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500  block w-full p-2.5 dark:bg-gray-200 dark:border-gray-600 dark:placeholder-gray-700 dark:text-black dark:focus:ring-blue-500 " placeholder="name@flowbite.com" required autoComplete="email" />
+                        {...register("email", {
+                            required: "Email is required",
+                        })}
+                        type="email"
+                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500  block w-full p-2.5 dark:bg-gray-200 dark:border-gray-600 dark:placeholder-gray-700 dark:text-black dark:focus:ring-blue-500 " placeholder="name@flowbite.com"
+                    />
+                    {errors.email &&
+                        (<p className="text-red-500">{`${errors.email?.message}`}</p>)}
                 </div>
                 <div className="mb-5 w-full">
                     <div className="flex items-center justify-between">
@@ -46,40 +52,36 @@ const Login = () => {
                             className="block mb-2 text-sm font-medium text-gray-900 ">
                             Your password
                         </label>
-                        {/* <a href="#" className="font-semibold text-indigo-600 hover:text-indigo-500">Forgot password?</a> */}
                     </div>
                     <input
+                        {...register("password", {
+                            required: "Password is requried",
+                            minLength: {
+                                value: 8,
+                                message: "Password must be at least 8 characters"
+                            },
+                        })}
                         type="password"
-                        value={pass}
-                        onChange={e => setPass(e.target.value)}
-                        id="password" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500  block w-full p-2.5 dark:bg-gray-200 dark:border-gray-600 dark:placeholder-gray-5  00 dark:text-black dark:focus:ring-blue-500 "
-                        placeholder="••••••••" required autoComplete="new-password" />
+                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500  block w-full p-2.5 dark:bg-gray-200 dark:border-gray-600 dark:placeholder-gray-5  00 dark:text-black dark:focus:ring-blue-500 "
+                        placeholder="••••••••"
+                    />
+                    {errors.password &&
+                        (<p className="text-red-500">{`${errors.password?.message}`}</p>)}
                 </div>
                 <div className="">
-                    <button type="submit" className="text-white bg-blue-500 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-fit px-5 py-2.5 text-center dark:hover:bg-blue-700 dark:focus:ring-blue-800" onSubmit={userLogin}>
+                    <button
+                        type="submit"
+                        disabled={isSubmitting}
+                        className="text-white bg-blue-500 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-fit px-5 py-2.5 text-center dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                        onSubmit={handleSubmit(userLogin)}>
                         Login
                     </button>
                 </div>
-                {/* <div className="md:mt-5 mt-2 w-full flex items-center">
-                    <p className="border-b-2 border-gray-500 w-1/3"></p>
-                    <p className="text-nowrap mx-1">Or Continue With</p>
-                    <p className="border-b-2 border-gray-500 w-1/3"></p>
-                </div> */}
+
             </form>
-            {/* <div className="mx-auto w-fit">
-                <button onClick={() => { }} className="w-full flex items-center mx-1 p-2 bg-gray-200 md:text-lg text-sm">
-                    Google
-                    <span className="mx-1">
-                        <FcGoogle />
-                    </span>
-                </button>
-            </div> */}
+
         </div>
     )
 };
-{/* <div className="flex items-center justify-between">
-    <label htmlFor="password" className="block text-sm font-medium leading-6 text-gray-900">Password</label>
-    {/* <div className="text-sm">
-                                <a href="#" className="font-semibold text-indigo-600 hover:text-indigo-500">Forgot password?</a>
-                            </div> */}
+
 export default Login;

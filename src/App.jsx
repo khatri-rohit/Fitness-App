@@ -32,9 +32,7 @@ const App = () => {
   return (
     <>
       <div className={`flex items-center overflow-x-hidden ${user ? '' : `image h-screen`} `}>
-        {/* <div className={`mx-auto h-screen flex items-center w-screen `}> */}
         {user ? <RouterProvider router={router} /> : <Register />}
-        {/* <RouterProvider router={router} /> */}
       </div>
     </>
   )

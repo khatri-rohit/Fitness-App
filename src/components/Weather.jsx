@@ -1,23 +1,26 @@
+/* eslint-disable react/no-unescaped-entities */
 import { useEffect, useState } from "react";
 import { FaMapLocationDot } from "react-icons/fa6";
 import { CiTempHigh } from "react-icons/ci";
 import { TbTemperatureCelsius } from "react-icons/tb";
 import { GiRaining } from "react-icons/gi";
 import { DotLoader } from 'react-spinners';
-
+import { RiSignalWifiErrorFill } from "react-icons/ri";
 const Weather = () => {
 
     const [lat, setLat] = useState('26.4499');
     const [log, setlog] = useState('74.6399');
     const [loading, setLoading] = useState(true);
     const [weather, setWeather] = useState([]);
+    const [error, setError] = useState(false);
 
     const getWeather = async (lat, log) => {
         try {
+            setError(false);
             const options = {
                 method: 'GET',
                 headers: {
-                    'x-rapidapi-key': '175a467426mshe8285a4a411f620p16192bjsna983e4d66aed',
+                    'x-rapidapi-key': '4fe11c7460msh49b7b139e4fe884p160e21jsna6d9161d0b74',
                     'x-rapidapi-host': 'weatherbit-v1-mashape.p.rapidapi.com'
                 },
             };
@@ -25,12 +28,10 @@ const Weather = () => {
             const response = await fetch(url, options);
             const result = await response.json();
             setWeather(result.data[0]);
-            console.log(result.data[0]);
-            console.log(weather?.weather.icon);
-
             setLoading(false);
         } catch (err) {
-            console.log(err);
+            setError(true);
+            console.log(err + "Error While Fetching Weather");
         } finally {
             setLoading(false);
         }
@@ -48,6 +49,15 @@ const Weather = () => {
         }
     }, [lat, log])
 
+
+    if (error) {
+        return <div className="md:mx-3 p-3 flex flex-col justify-center items-center">
+            <RiSignalWifiErrorFill className="text-5xl" />
+            <p className="text-2xl">Weather API Reached It's Limit</p>
+            <p className="text-xl">Don't Worry It Will Resolve Automatically</p>
+        </div>
+    }
+
     if (loading)
         return <div className="md:mx-3 p-3 flex justify-center">
             <DotLoader
@@ -55,7 +65,6 @@ const Weather = () => {
                 size={30}
             />
         </div>
-
     return (
         <>
             <div className="md:mx-3 p-3">
@@ -64,10 +73,12 @@ const Weather = () => {
                     <div className="flex justify-between items-start">
                         <div className="flex items-start">
                             <FaMapLocationDot className="mt-2 mx-2 text-gray-500" />
-                            <span className="md:text-4xl text-xl font-semibold mx-2">{weather?.city_name}</span>
+                            <span className="md:text-4xl text-xl font-semibold mx-2">
+                                {weather?.city_name}
+                            </span>
                         </div>
                         <div className="bg-slate-200 rounded-lg">
-                            <img src={`/img/weather/${weather?.weather.icon}.png`} />
+                            <img src={`/img/weather/${weather?.weather?.icon}.png`} />
                         </div>
                     </div>
                     <div className="flex my-2 justify-between p-3">
@@ -75,28 +86,40 @@ const Weather = () => {
                             <CiTempHigh className="text-4xl" />
                             <div className="flex items-center flex-col">
                                 <div className="flex items-center">
-                                    <p className="text-xl md:text-2xl font-bold">{weather?.temp}</p>
+                                    <p className="text-xl md:text-2xl font-bold">
+                                        {Math.floor(weather?.temp)}
+                                    </p>
                                     <TbTemperatureCelsius className="text-xl md:text-2xl" />
                                 </div>
-                                <span className="text-gray-400 font-medium text-xs md:text-lg">Temp</span>
+                                <span className="text-gray-400 font-medium text-xs md:text-lg">
+                                    Temp
+                                </span>
                             </div>
                         </div>
                         <div className="flex flex-col items-center">
                             <GiRaining className="text-4xl" />
                             <div className="flex items-center flex-col">
                                 <div className="flex items-center">
-                                    <p className="text-xl md:text-2xl font-bold">{weather?.precip} mm</p>
+                                    <p className="text-xl md:text-2xl font-bold">
+                                        {Math.floor(weather?.precip)} mm
+                                    </p>
                                 </div>
-                                <span className="text-gray-400 font-medium text-xs md:text-lg">Rain</span>
+                                <span className="text-gray-400 font-medium text-xs md:text-lg">
+                                    Rain
+                                </span>
                             </div>
                         </div>
                         <div className="flex flex-col items-center">
                             <CiTempHigh className="text-4xl" />
                             <div className="flex items-center flex-col">
                                 <div className="flex items-center">
-                                    <p className="text-xl md:text-2xl font-bold">{weather?.wind_spd} Km/h</p>
+                                    <p className="text-xl md:text-2xl font-bold">
+                                        {Math.floor(weather?.wind_spd)} Km/h
+                                    </p>
                                 </div>
-                                <span className="text-gray-400 font-medium text-xs md:text-lg">Wind</span>
+                                <span className="text-gray-400 font-medium text-xs md:text-lg">
+                                    Wind
+                                </span>
                             </div>
                         </div>
                     </div>

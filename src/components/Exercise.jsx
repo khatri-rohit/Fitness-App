@@ -7,7 +7,7 @@ import { GiCheckMark } from 'react-icons/gi';
 
 const Exercise = () => {
     const [show, setShow] = useState(false);
-    const [precent, setPercent] = useState(0);
+    const [percent, setPercent] = useState(0);
     const [count, setCount] = useState(0);
     const [total, setTotal] = useState(0);
     const [exercises, setExercises] = useState([]);
@@ -26,7 +26,6 @@ const Exercise = () => {
                     const exer = docSnap.data().exer;
                     if (exer !== undefined)
                         setExercises(exer);
-                    console.log("Exericse Fetched");
                 }
                 else {
                     console.log("Goal Exercise is Not Fetched Properly");
@@ -44,7 +43,6 @@ const Exercise = () => {
 
         const timeoutId = setTimeout(() => {
             setExercises([]);
-            console.log("Exercises reset at midnight");
         }, timeUntilMidnight);
 
         return () => clearTimeout(timeoutId);
@@ -79,23 +77,31 @@ const Exercise = () => {
                 <p className="text-gray-100 font-normal">
                     Exercise
                 </p>
-                <div className="flex justify-between items-center p-3 cursor-pointer" onClick={() => setShow(prev => !prev)}>
-                    <div className="mb-2">
+                <div className="flex justify-between items-center p-3 cursor-pointer"
+                    onClick={() => setShow(prev => !prev)}>
+                    <div className="mb-2 mx-3">
                         <p className="text-2xl text-white font-medium drop-shadow-xl my-5">
                             Exercises
                         </p>
                     </div>
-                    <div className="w-[30%] flex items-center relative">
+                    <div className="relative flex items-center justify-center w-40 h-40 md:w-48 md:h-48 drop-shadow-lg">
                         <Circle
-                            percent={precent}
-                            strokeColor="blue"
+                            percent={percent}
+                            strokeColor="#ef4648"
                             strokeWidth={5}
                             strokeLinecap="round"
                             trailWidth={3}
                             trailColor="white"
+                            className="absolute"
                         />
-                        <span className="text-white absolute md:inset-x-3 inset-x-7 lg:inset-x-16 md:text-3xl text-md">
-                            {count == total ? <GiCheckMark /> : count + "/" + total}
+                        <span className="absolute flex items-center justify-center text-white text-md md:text-2xl font-medium">
+                            {total === 0 ? (
+                                <p className='text-xs md:text-base'>Add Exercise</p>
+                            ) : count === total ? (
+                                <GiCheckMark className="text-2xl md:text-3xl" />
+                            ) : (
+                                `${count}/${total}`
+                            )}
                         </span>
                     </div>
                 </div>

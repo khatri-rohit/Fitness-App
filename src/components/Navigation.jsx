@@ -4,7 +4,7 @@ import { useFireabse } from '../context/Firebase'
 import { NavLink } from 'react-router-dom'
 
 const navigation = [
-    { name: 'Dashboard', href: '/dashboard', current: true },
+    { name: 'Dashboard', href: '/', current: true },
     { name: 'Workout', href: '/workout', current: false },
     // { name: 'Projects', href: '/projects', current: false },
     // { name: 'Calendar', href: '/calendar', current: false },
